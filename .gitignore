@@ -2,5 +2,6 @@ __pycache__/
 *.py[cod]
 
 node_modules
+dist
 
 mnemonic-official-py3-54787c046834.json

@@ -3,6 +3,8 @@
 .git
 .gitignore
 .gitattributes
+.node-version
+.python-version
 
 *.py[cod]
 __pycache__/
@@ -17,5 +19,6 @@ yarn.lock
 yarn-error.log
 
 node_modules
+ng
 
 mnemonic-official-py3-54787c046834.json

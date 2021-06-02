@@ -5,7 +5,9 @@
     "start": "npm-run-all --parallel run-server serve",
     "build": "cd ng; ng build --prod",
     "serve": "cd ng; ng serve --open",
-    "run-server": "export GOOGLE_APPLICATION_CREDENTIALS=\"/Users/somin/gae_project/mnemonic-official-py3/mnemonic-official-py3-54787c046834.json\"; uvicorn main:app --reload"
+    "run-server": "export GOOGLE_APPLICATION_CREDENTIALS=\"/Users/somin/gae_project/mnemonic-official-py3/mnemonic-official-py3-54787c046834.json\"; uvicorn main:app --host 0.0.0.0 --port 8080 --reload",
+    "browser": "sleep 5; opener http://localhost:8080/",
+    "deploy": "gcloud app deploy --project mnemonic-official-py3 --version"
   },
   "private": true,
   "dependencies": {
