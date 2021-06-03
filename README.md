@@ -1,6 +1,8 @@
 # mnemonic-official-py3
-- GAE/Python 3.9, FastAPI
-- Angular12
+2014 年に作った自社サイトを、最新のツールで作り直すプロジェクト（?）。
+
+- Google App Engine / Python 3.9 / FastAPI
+- Angular 12
 
 ```
 $ pipenv shell
