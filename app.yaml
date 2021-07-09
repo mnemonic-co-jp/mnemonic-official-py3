@@ -1,7 +1,21 @@
+# application: mnemonic-official-py3
+# version: test
+
 runtime: python39
 entrypoint: uvicorn main:app --port=${PORT}
 
 handlers:
-- url: /(.+)?
-  secure: always
+- url: /api/(.+)
   script: auto
+  secure: always
+- url: /(.+)\.(txt|css|js|png|svg|jpg|gif|eot|ttf|woff)
+  static_files: dist/\1.\2
+  upload: dist/(.+)
+  secure: always
+- url: /(.+)?
+  static_files: dist/index.html
+  upload: dist/index\.html
+  secure: always
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    X-Frame-Options: DENY
