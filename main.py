@@ -1,17 +1,8 @@
 from fastapi import FastAPI, Depends
-from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import ndb
 from models import Entry, Tag
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['http://localhost:4200'],
-    allow_credentials=True,
-    allow_methods=['*'],
-    allow_headers=['*']
-)
-
 client = ndb.Client()
 
 async def create_context():
