@@ -1,0 +1,7 @@
+indexes:
+
+- kind: Entry
+  properties:
+  - name: is_deleted
+  - name: date
+    direction: desc

@@ -28,4 +28,4 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
 
 @app.get('/api/entries/', dependencies = [Depends(create_context)])
 async def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
-    return fetched_response(Entry.query(), params, response)
+    return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)

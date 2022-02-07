@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { EntriesService } from '../shared/services/entries.service';
+import { Entry } from '../shared/models/entry.model';
 
 @Component({
   selector: 'app-blog',
@@ -7,11 +8,14 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
-  entries: any[] | null = null;
+  entries: Entry[] | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private entriesService: EntriesService) {}
 
   ngOnInit(): void {
-    this.http.get<any[]>('/api/entries/?sort=-date&fields=title').subscribe((entries: any[]) => this.entries = entries );
+    this.entriesService.fetch({
+      sort: '-date',
+      fields: 'title,date,tags'
+    }).subscribe((entries: Entry[]) => this.entries = entries );
   }
 }
