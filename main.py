@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response, Depends
+from fastapi import FastAPI, Request, Response, Depends, HTTPException
 from google.cloud import ndb
 from models import Entry
 
@@ -29,3 +29,10 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
 @app.get('/api/entries/', dependencies = [Depends(create_context)])
 async def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
+
+@app.get('/api/entries/{id}', dependencies = [Depends(create_context)])
+async def fetch_entries(id: int):
+    entry = Entry.get_by_id(id)
+    if not entry or entry.is_deleted:
+        raise HTTPException(status_code=404, detail='その記事は存在しません。')
+    return entry.to_dict()
