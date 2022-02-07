@@ -26,6 +26,6 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
         return [e.to_dict(include = params.include) for e in entries]
     return [c.to_dict(include = params.include) for c in query]
 
-@app.get('/api/test/', dependencies = [Depends(create_context)])
-async def test(response: Response, params: QueryParams = Depends(QueryParams)):
+@app.get('/api/entries/', dependencies = [Depends(create_context)])
+async def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
     return fetched_response(Entry.query(), params, response)
