@@ -4,6 +4,11 @@ class BaseModel(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
 
+    def to_dict(self, include=None, exclude=None):
+        result = super(BaseModel, self).to_dict(include=include, exclude=exclude)
+        result['id'] = self.key.id()
+        return result
+
 class Entry(BaseModel):
     title = ndb.StringProperty()
     date = ndb.DateTimeProperty()

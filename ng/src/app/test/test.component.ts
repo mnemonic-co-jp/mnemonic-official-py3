@@ -7,11 +7,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
-  test: any[] = [];
+  test: any[] | null = null;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<any[]>('/api/test/').subscribe((test: any[]) => this.test = test );
+    this.http.get<any[]>('/api/test/?sort=-date&fields=title').subscribe((test: any[]) => this.test = test );
   }
 }

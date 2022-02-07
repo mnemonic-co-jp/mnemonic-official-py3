@@ -1,1 +1,5 @@
-<pre>{{ test | json }}</pre>
+<div *ngIf="!test" class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
+<pre *ngIf="test">{{ test | json }}</pre>
