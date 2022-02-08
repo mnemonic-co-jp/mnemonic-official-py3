@@ -1,5 +1,1 @@
-<div *ngIf="!entries" class="spinner-border" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>
-
-<pre *ngIf="entries">{{ entries | json }}</pre>
+<pre *ngIf="entries" class="text-sm">{{ entries | json }}</pre>
