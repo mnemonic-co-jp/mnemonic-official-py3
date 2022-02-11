@@ -1,0 +1,15 @@
+table {
+  @apply border-collapse border border-zinc-300;
+
+  > tbody {
+    > tr {
+      th {
+        @apply text-left font-medium border border-zinc-300 px-5 py-3;
+      }
+
+      td {
+        @apply border border-zinc-300 px-5 py-3;
+      }
+    }
+  }
+}

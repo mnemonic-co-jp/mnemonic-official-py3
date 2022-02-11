@@ -16,6 +16,6 @@ export class BlogComponent implements OnInit {
     this.entriesService.fetch({
       sort: '-date',
       fields: 'title,date,tags'
-    }).subscribe((entries: Entry[]) => this.entries = entries );
+    }).subscribe((entries: Entry[]) => this.entries = entries);
   }
 }

@@ -1,9 +1,47 @@
-<div class="fixed left-0 right-0 top-0 bg-mnemonic-orange w-full">
-  <div class="container relative mx-auto h-[44px] z-10">
-    <div class="absolute left-0 top-[22px]"><a href="/"><img src="/assets/images/logo.png" alt="ニモニク"></a></div>
+<div class="fixed left-0 right-0 top-0 bg-mnemonic-orange w-full z-10">
+  <div class="container relative mx-auto z-11">
+    <div class="absolute left-0 top-[22px] w-[160px]"><a routerLink="/"><img class="border border-zinc-800 w-full h-auto" src="/assets/images/logo.png" alt="ニモニク"></a></div>
+
+    <ul class="flex items-center h-[44px] pl-[200px]">
+      <li class="inline-block mr-5"><a class="text-white/75 hover:text-white" routerLink="/about">弊社について</a></li>
+      <li class="inline-block mr-5"><a class="text-white/75 hover:text-white" routerLink="/works">実績紹介</a></li>
+      <li class="inline-block mr-5"><a class="text-white/75 hover:text-white" routerLink="/blog">技術ブログ</a></li>
+      <li class="inline-block mr-5"><a class="text-white/75 hover:text-white" routerLink="/contact">お問い合わせ</a></li>
+    </ul>
   </div>
 </div>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+<div class="contentBody min-h-screen">
+  <header>
+    <div class="container mx-auto pt-[120px] pl-[200px] h-[182px]">
+      <h1 class="text-zinc-400 text-2xl font-bold tracking-[.5rem]">株式会社ニーモニック</h1>
+    </div>
+  </header>
+
+  <div class="container relative mx-auto min-h-[calc(100vh_-_182px)]">
+    <div class="flex">
+      <aside class="w-[160px] max-h-full overflow-auto" role="complementary">
+        <div class="mt-10">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4887705385405786" crossorigin="anonymous"></script>
+          <!-- mini_skyscraper -->
+          <ins class="adsbygoogle" style="display:inline-block;width:160px;height:480px;border:1px solid #ccc;" data-ad-client="ca-pub-4887705385405786" data-ad-slot="1560402219"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </aside>
+
+      <main class="ml-[70px] w-[calc(100%_-_230px)] pb-[100px]" role="main">
+        <article>
+          <router-outlet></router-outlet>
+        </article>
+      </main>
+
+      <footer class="absolute left-0 right-0 bottom-0">
+        <div class="container mx-auto py-6">
+          <address class="text-zinc-400 text-xs not-italic">&copy; 2014-{{ currentYear }} Mnemonic Co., Ltd. Some Rights Reserved.</address>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

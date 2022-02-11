@@ -1,3 +1,26 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.container {
+  max-width: 1024px;
+}
+
+.contentBody {
+  background: #fff url("/assets/images/bg_sub.jpg") top center no-repeat;
+  background-attachment: fixed;
+}
+
+#page-home {
+  .contentBody {
+    background-image: url("/assets/images/bg_main.jpg");
+
+    > .container > .flex {
+      height: calc(100vh - 182px);
+
+      article {
+        height: 100%;
+      }
+    }
+  }
+}

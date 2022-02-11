@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 import { BlogComponent } from './blog/blog.component';
 import { CoreInterceptor } from './shared/interceptors/core.interceptor';
 
@@ -11,6 +12,7 @@ import { CoreInterceptor } from './shared/interceptors/core.interceptor';
   declarations: [
     AppComponent,
     HomeComponent,
+    AboutComponent,
     BlogComponent
   ],
   imports: [
