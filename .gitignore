@@ -4,4 +4,5 @@ __pycache__/
 node_modules
 dist
 
-mnemonic-official-py3-54787c046834.json
+mnemonic-official-py3-d419faeaedf9.json
+secret.yaml
