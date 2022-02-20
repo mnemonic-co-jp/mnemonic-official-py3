@@ -1,1 +1,24 @@
-<pre *ngIf="entries" class="text-sm">{{ entries | json }}</pre>
+<div class="mt-10">
+  <p class="mb-2">日々の業務において技術面で躓いたりハマったりしたことがあれば、会社のアカウント（<a class="text-zinc-400 hover:text-mnemonic-orange" href="https://twitter.com/mnemoniccojp" target="_blank">@mnemoniccojp</a>）で逐一ツイートするようにしています。そして当ブログは、これらのツイートにフォロー追記したもの。いわゆるひとつのオウンドメディアってやつです。</p>
+
+  <p>まだまだ使いづらい部分もありますが、どうか長い目で見てやってください。</p>
+</div>
+
+<section class="mt-14">
+  <h1 class="text-xl font-semibold mb-4">ブログ記事一覧</h1>
+
+  <p *ngIf="!entries">読み込んでいます...</p>
+
+  <ul *ngIf="entries" class="entryList">
+    <li class="my-5 pl-[80px]" *ngFor="let entry of entries">
+      <dl class="calendar">
+        <dt class="text-center text-white text-xs font-bold bg-mnemonic-orange">{{ entry.date | date:'MMM' }}</dt>
+        <dd class="text-center text-black text-3xl font-bold bg-white border border-black mt-[1px] py-1">{{ entry.date | date:'d' }}</dd>
+      </dl>
+
+      <h3 class="text-black hover:text-mnemonic-orange text-lg font-semibold mb-1"><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
+
+      <p class="text-zinc-400 text-sm">{{ entry.date | date:'yyyy年M月d日 HH:mm' }}｜{{ entry.tags }}</p>
+    </li>
+  </ul>
+</section>
