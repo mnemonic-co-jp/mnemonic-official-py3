@@ -1,0 +1,28 @@
+<section class="mt-10">
+  <h1 class="text-xl font-semibold mb-4">思い立ったが吉日。まずは気軽にお問い合わせを</h1>
+
+  <p>「この案件、ニーモニックに依頼したいかも」と思ったら、以下のフォームよりお問い合わせください。質問は大歓迎ですが、セールスの類は間に合っておりますのでご遠慮いただけると助かります。</p>
+
+  <ul class="text-sm text-amber-700 mt-6">
+    <li>※お電話番号かメールアドレスのいずれかは入力願います。折り返しの連絡がとれませんので。</li>
+    <li>※不特定多数が相手の DM 系があまりにも多いため、reCAPTCHA を導入しました。ご容赦ください。</li>
+  </ul>
+
+  <form class="mt-10" [formGroup]="contactForm" (submit)="submit()">
+    <div class="grid grid-cols-6 gap-3">
+      <div class="col-start-1 col-end-2 font-semibold py-3">お名前</div>
+      <div class="col-start-2 col-end-5"><input type="text" class="formControl" /></div>
+
+      <div class="col-start-1 col-end-2 font-semibold py-3">お電話番号</div>
+      <div class="col-start-2 col-end-5"><input type="tel" class="formControl" /></div>
+
+      <div class="col-start-1 col-end-2 font-semibold py-3">メールアドレス</div>
+      <div class="col-start-2 col-end-5"><input type="email" class="formControl" /></div>
+
+      <div class="col-start-1 col-end-2 font-semibold py-3">メッセージ</div>
+      <div class="col-start-2 col-end-7"><textarea rows="5" class="formControl"></textarea></div>
+
+      <div class="col-start-2 col-end-7 mt-4"><button class="btn-primary">送信</button></div>
+    </div>
+  </form>
+</section>

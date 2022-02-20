@@ -30,3 +30,9 @@ class Tag(BaseModel):
     name = ndb.StringProperty()
     name_lower = ndb.ComputedProperty(lambda self: self.name.lower())
     count = ndb.IntegerProperty(default=0)
+
+class Contact(BaseModel):
+    name = ndb.StringProperty(required=True)
+    phone = ndb.StringProperty(default='')
+    email = ndb.StringProperty(default='')
+    body = ndb.TextProperty(required=True)

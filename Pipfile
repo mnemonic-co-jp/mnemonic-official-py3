@@ -8,6 +8,9 @@ uvicorn = {extras = ["standard"], version = "*"}
 fastapi = "*"
 google-cloud-ndb = "*"
 requests = "*"
+sendgrid = "*"
+pyyaml = "*"
+pydantic = "*"
 
 [dev-packages]
 

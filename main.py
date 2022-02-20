@@ -1,6 +1,8 @@
+import pydantic, requests, yaml
 from fastapi import FastAPI, Request, Response, Depends, HTTPException
 from google.cloud import ndb
-from models import Entry
+from typing import Optional
+from models import Entry, Contact
 
 app = FastAPI()
 client = ndb.Client()
@@ -8,6 +10,9 @@ client = ndb.Client()
 async def create_context():
     with client.context():
         yield
+
+with open('secret.yaml') as file:
+    SECRET = yaml.safe_load(file.read())
 
 class QueryParams:
     def __init__(self, sort: str = None, fields: str = None, limit: int = None, cursor: str = None):
@@ -27,12 +32,41 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
     return [c.to_dict(include = params.include) for c in query]
 
 @app.get('/api/entries/', dependencies = [Depends(create_context)])
-async def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
+def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
 
 @app.get('/api/entries/{id}', dependencies = [Depends(create_context)])
-async def fetch_entries(id: int):
+def fetch_entries(id: int):
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
     return entry.to_dict()
+
+class ContactRequestModel(pydantic.BaseModel):
+    name: str
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    body: str
+    token: str
+
+@app.post('/api/contact/', dependencies = [Depends(create_context)])
+def post_contact(contact: ContactRequestModel):
+    session = requests.Session()
+    adapter = requests.adapters.HTTPAdapter(max_retries=3)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    payload = {
+        'secret': SECRET['recaptcha']['secret'],
+        'response': contact.token
+    }
+    # reCAPTCHA v3 の verify（https://developers.google.com/recaptcha/docs/verify）
+    response = session.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
+    result = response.json()
+    if not result['success'] or result['score'] < 0.5:
+        raise HTTPException(status_code=403, detail='リクエストは拒否されました。')
+    entity = Contact(**contact.dict(exclude={'token': True}))
+    entity.put()
+
+    # TODO: メール送信などの処理
+
+    return {}
