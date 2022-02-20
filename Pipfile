@@ -11,6 +11,8 @@ requests = "*"
 sendgrid = "*"
 pyyaml = "*"
 pydantic = "*"
+google-cloud-tasks = "*"
+jinja2 = "*"
 
 [dev-packages]
 

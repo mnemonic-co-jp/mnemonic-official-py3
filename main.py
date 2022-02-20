@@ -1,14 +1,22 @@
-import pydantic, requests, yaml
+import os, jinja2, json, pydantic, requests, yaml, sendgrid
 from fastapi import FastAPI, Request, Response, Depends, HTTPException
-from google.cloud import ndb
+from google.cloud import ndb, tasks_v2
+from sendgrid.helpers.mail import Mail
 from typing import Optional
-from models import Entry, Contact
+from models import Entry
 
 app = FastAPI()
-client = ndb.Client()
+ndb_client = ndb.Client()
+tasks_client = tasks_v2.CloudTasksClient()
+project_name = 'mnemonic-official-py3'
+tasks_location = 'asia-northeast1'
+
+jinja_environment = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates'))
+)
 
 async def create_context():
-    with client.context():
+    with ndb_client.context():
         yield
 
 with open('secret.yaml') as file:
@@ -64,9 +72,37 @@ def post_contact(contact: ContactRequestModel):
     result = response.json()
     if not result['success'] or result['score'] < 0.5:
         raise HTTPException(status_code=403, detail='リクエストは拒否されました。')
-    entity = Contact(**contact.dict(exclude={'token': True}))
-    entity.put()
-
-    # TODO: メール送信などの処理
-
+    payload = contact.dict(exclude={'token': True})
+    enqueue_send_contact_mail(payload)
     return {}
+
+def enqueue_send_contact_mail(payload):
+    if os.getenv('GAE_INSTANCE', '') == '':
+        send_contact_mail(payload)
+        return
+    parent = tasks_client.queue_path(project_name, tasks_location, 'send-contact-mail')
+    task = {
+        'app_engine_http_request': {
+            'http_method': tasks_v2.HttpMethod.POST,
+            'relative_uri': '/task/contact/send_mail/',
+            'headers': {
+                'Content-type': 'application/json'
+            },
+            'body': json.dumps(payload).encode()
+        }
+    }
+    return tasks_client.create_task(parent=parent, task=task)
+
+def send_contact_mail(payload):
+    message = Mail(
+        from_email=('noreply@mnemonic.co.jp'),
+        subject=f'【Mnemonic】{payload["name"]} さんからのお問い合わせ',
+        plain_text_content=jinja_environment.get_template('email/contact.txt').render(payload),
+        to_emails='somin@mnemonic.co.jp'
+    )
+    try:
+        sendgrid_client = sendgrid.SendGridAPIClient(api_key=SECRET['sendgrid']['apikey'])
+        response = sendgrid_client.send(message)
+    except Exception as e:
+        print(e)
+    return
