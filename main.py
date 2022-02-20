@@ -70,7 +70,11 @@ def post_contact(contact: ContactRequestModel):
     # reCAPTCHA v3 の verify（https://developers.google.com/recaptcha/docs/verify）
     response = session.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
     result = response.json()
-    if not result['success'] or result['score'] < 0.5:
+    print(result)
+    if not result['success'] or result['action'] != 'submitContact':
+        # TODO: result['hostname'] をロギングする？
+        raise HTTPException(status_code=400)
+    if result['score'] < 0.5:
         raise HTTPException(status_code=403, detail='リクエストは拒否されました。')
     payload = contact.dict(exclude={'token': True})
     enqueue_send_contact_mail(payload)
