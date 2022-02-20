@@ -10,14 +10,16 @@ import { AboutComponent } from './about/about.component';
 import { BlogComponent } from './blog/blog.component';
 import { ContactComponent } from './contact/contact.component';
 import { CoreInterceptor } from './shared/interceptors/core.interceptor';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
+    BlogComponent,
     ContactComponent,
-    BlogComponent
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
