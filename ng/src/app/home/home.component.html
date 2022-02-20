@@ -18,13 +18,17 @@
     <div class="border border-zinc-200 bg-white/50 px-4 py-3">
       <h1 class="font-bold mb-2">直近（?）のブログ記事</h1>
 
-      <div>
-        <dl class="flex flex-wrap text-sm w-full">
+      <p *ngIf="!entries" class="text-sm"><em>読み込み中です...</em></p>
+
+      <div *ngIf="entries">
+        <dl *ngIf="entries.length > 0" class="flex flex-wrap text-sm w-full">
           <ng-container *ngFor="let entry of entries">
             <dt class="w-[8rem]">{{ entry.date | date:'yyyy年M月d日' }}</dt>
             <dd class="truncate w-[calc(100%_-_8rem)] mb-1"><a class="hover:text-black" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
           </ng-container>
         </dl>
+
+        <p *ngIf="entries.length === 0" class="text-sm">記事はまだありません。</p>
       </div>
     </div>
   </section>

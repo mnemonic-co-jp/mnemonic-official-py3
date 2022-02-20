@@ -13,6 +13,10 @@ export class BlogComponent implements OnInit {
   constructor(private entriesService: EntriesService) {}
 
   ngOnInit(): void {
+    this.fetchEntries();
+  }
+
+  fetchEntries(): void {
     this.entriesService.fetch({
       sort: '-date',
       fields: 'title,date,tags'

@@ -7,18 +7,22 @@
 <section class="mt-14">
   <h1 class="text-xl font-semibold mb-4">ブログ記事一覧</h1>
 
-  <p *ngIf="!entries">読み込んでいます...</p>
+  <p *ngIf="!entries"><em>読み込み中です...</em></p>
 
-  <ul *ngIf="entries" class="entryList">
-    <li class="my-5 pl-[80px]" *ngFor="let entry of entries">
-      <dl class="calendar">
-        <dt class="text-center text-white text-xs font-bold bg-mnemonic-orange">{{ entry.date | date:'MMM' }}</dt>
-        <dd class="text-center text-black text-3xl font-bold bg-white border border-black mt-[1px] py-1">{{ entry.date | date:'d' }}</dd>
-      </dl>
+  <div *ngIf="entries">
+    <ul *ngIf="entries.length > 0" class="entryList">
+      <li class="my-5 pl-[80px]" *ngFor="let entry of entries">
+        <dl class="calendar">
+          <dt class="text-center text-white text-xs font-bold bg-mnemonic-orange">{{ entry.date | date:'MMM' }}</dt>
+          <dd class="text-center text-black text-3xl font-bold bg-white border border-black mt-[1px] py-1">{{ entry.date | date:'d' }}</dd>
+        </dl>
 
-      <h3 class="text-black hover:text-mnemonic-orange text-lg font-semibold mb-1"><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
+        <h3 class="text-black hover:text-mnemonic-orange text-lg font-semibold mb-1"><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
 
-      <p class="text-zinc-400 text-sm">{{ entry.date | date:'yyyy年M月d日 HH:mm' }}｜{{ entry.tags }}</p>
-    </li>
-  </ul>
+        <p class="text-zinc-400 text-sm">{{ entry.date | date:'yyyy年M月d日 HH:mm' }}｜{{ entry.tags }}</p>
+      </li>
+    </ul>
+
+    <p *ngIf="entries.length === 0">記事はまだありません。</p>
+  </div>
 </section>

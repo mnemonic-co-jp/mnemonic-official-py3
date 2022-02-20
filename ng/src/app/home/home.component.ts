@@ -13,11 +13,15 @@ export class HomeComponent implements OnInit {
   constructor(private entriesService: EntriesService) {}
 
   ngOnInit(): void {
-    // ブログ記事の最新 5 件を取得
+    this.fetchRecentEntries(5);
+  }
+
+  fetchRecentEntries(limit: number): void {
+    // ブログ記事の最新 n 件を取得
     this.entriesService.fetch({
       sort: '-date',
       fields: 'title,date',
-      limit: 5
+      limit: limit
     }).subscribe((entries: Entry[]) => this.entries = entries);
   }
 }
