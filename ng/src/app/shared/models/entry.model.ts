@@ -2,7 +2,7 @@ export interface Entry {
   id: number;
   title: string;
   date: string;
-  twitterIds: number[];
+  tweetIds: string[];
   body: string;
   tags: string;
   views: number[];

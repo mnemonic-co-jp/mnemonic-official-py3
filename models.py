@@ -19,7 +19,7 @@ class BaseModel(ndb.Model):
 class Entry(BaseModel):
     title = ndb.StringProperty()
     date = ndb.DateTimeProperty()
-    twitter_ids = ndb.IntegerProperty(repeated=True)
+    tweet_ids = ndb.StringProperty(repeated=True)
     body = ndb.TextProperty()
     tags = ndb.StringProperty(repeated=True)
     views = ndb.IntegerProperty(default=0)

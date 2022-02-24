@@ -4,10 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { NgxTwitterWidgetsModule } from 'ngx-twitter-widgets';
+import { MarkdownModule } from 'ngx-markdown';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { BlogComponent } from './blog/blog.component';
+import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { ContactComponent } from './contact/contact.component';
 import { CoreInterceptor } from './shared/interceptors/core.interceptor';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -18,6 +21,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HomeComponent,
     AboutComponent,
     BlogComponent,
+    BlogDetailComponent,
     ContactComponent,
     PageNotFoundComponent
   ],
@@ -26,7 +30,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    RecaptchaV3Module
+    RecaptchaV3Module,
+    NgxTwitterWidgetsModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6Lcl_3MeAAAAANxWTdd4BHMG9WflFiTowhKk3JDK' },
