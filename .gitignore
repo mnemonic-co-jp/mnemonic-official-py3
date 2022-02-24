@@ -3,6 +3,7 @@ __pycache__/
 
 node_modules
 dist
+ng/.angular/
 
 mnemonic-official-py3-d419faeaedf9.json
 secret.yaml
