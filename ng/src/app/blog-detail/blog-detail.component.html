@@ -1,11 +1,21 @@
 <header *ngIf="entry" class="my-10">
-  <h1 class="text-black text-2xl font-medium mb-2">{{ entry.title }}</h1>
+  <h1 class="text-black text-2xl font-medium mb-3">{{ entry.title }}</h1>
 
   <p class="text-zinc-400 text-sm mb-2"><hero-icon name="clock" type="outline" class="mr-1 w-4 h-4"></hero-icon>{{ entry.date | date:'yyyy年M月d日 HH:mm' }}</p>
+
+  <p class="text-zinc-400 text-sm"><hero-icon name="tag" type="outline" class="mr-1 w-4 h-4"></hero-icon><span class="text-[10px] leading-none text-mnemonic-orange bg-mnemonic-orange/10 border border-mnemonic-orange rounded mr-1 px-2 py-1" *ngFor="let tag of entry.tags">{{ tag }}</span></p>
 </header>
 
-<section *ngIf="entry">
-  <ngx-twitter-tweet *ngFor="let tweetId of entry.tweetIds" [tweetID]="tweetId" [options]="{ lang: 'ja', layout: 'responsive' }"></ngx-twitter-tweet>
+<section id="pageBody">
+  <div *ngIf="entry" class="relative pr-[200px]">
+    <ngx-twitter-tweet *ngFor="let tweetId of entry.tweetIds" [tweetID]="tweetId" [options]="{ lang: 'ja', layout: 'responsive' }"></ngx-twitter-tweet>
 
-  <markdown ngPreserveWhitespaces>{{ entry.body }}</markdown>
+    <div class="mt-[60px]">
+      <markdown ngPreserveWhitespaces>{{ entry.body }}</markdown>
+    </div>
+
+    <div class="absolute top-0 right-0" id="rightAd">
+      <iframe src="https://rcm-fe.amazon-adsystem.com/e/cm?t=somin-22&o=9&p=14&l=bn1&mode=books-jp&browse=466298&fc1=000000&lt1=_blank&lc1=3366FF&bg1=FFFFFF&f=ifr" marginwidth="0" marginheight="0" width="160" height="600" border="0" frameborder="0" style="border:none;" scrolling="no"></iframe>
+    </div>
+  </div>
 </section>

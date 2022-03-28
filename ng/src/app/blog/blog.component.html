@@ -19,7 +19,7 @@
 
         <h3 class="text-black hover:text-mnemonic-orange text-lg font-semibold mb-1"><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
 
-        <p class="text-zinc-400 text-sm">{{ entry.date | date:'yyyy年M月d日 HH:mm' }}｜{{ entry.tags }}</p>
+        <p class="text-zinc-400 text-sm"><hero-icon name="clock" type="outline" class="mr-1 w-4 h-4"></hero-icon>{{ entry.date | date:'yyyy年M月d日 HH:mm' }} ｜ <hero-icon name="tag" type="outline" class="mr-1 w-4 h-4"></hero-icon>{{ entry.tags }}</p>
       </li>
     </ul>
 
