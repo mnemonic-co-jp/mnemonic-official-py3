@@ -1,9 +1,12 @@
 import re
+from dateutil import tz
 from google.cloud import ndb
 
+JST = tz.gettz('Asia/Tokyo')
+
 class BaseModel(ndb.Model):
-    created_at = ndb.DateTimeProperty(auto_now_add=True)
-    updated_at = ndb.DateTimeProperty(auto_now=True)
+    created_at = ndb.DateTimeProperty(auto_now_add=True, tzinfo=JST)
+    updated_at = ndb.DateTimeProperty(auto_now=True, tzinfo=JST)
 
     def to_dict(self, include=None, exclude=None):
         result = super(BaseModel, self).to_dict(include=include, exclude=exclude)
@@ -18,7 +21,7 @@ class BaseModel(ndb.Model):
 
 class Entry(BaseModel):
     title = ndb.StringProperty()
-    date = ndb.DateTimeProperty()
+    date = ndb.DateTimeProperty(tzinfo=JST)
     tweet_ids = ndb.StringProperty(repeated=True)
     body = ndb.TextProperty()
     tags = ndb.StringProperty(repeated=True)
