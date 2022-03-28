@@ -44,7 +44,7 @@ def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
 
 @app.get('/api/entries/{id}', dependencies = [Depends(create_context)])
-def fetch_entries(id: int):
+def get_entry(id: int):
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
