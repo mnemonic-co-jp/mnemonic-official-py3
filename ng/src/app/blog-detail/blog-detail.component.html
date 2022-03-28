@@ -1,7 +1,7 @@
 <header *ngIf="entry" class="my-10">
   <h1 class="text-black text-2xl font-medium mb-2">{{ entry.title }}</h1>
 
-  <p class="text-zinc-400 text-sm">{{ entry.date | date:'yyyy年M月d日 HH:mm' }}</p>
+  <p class="text-zinc-400 text-sm mb-2"><hero-icon name="clock" type="outline" class="mr-1 w-4 h-4"></hero-icon>{{ entry.date | date:'yyyy年M月d日 HH:mm' }}</p>
 </header>
 
 <section *ngIf="entry">
