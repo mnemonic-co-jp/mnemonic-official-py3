@@ -19,3 +19,8 @@
     </div>
   </div>
 </section>
+
+<ul *ngIf="entry" class="flex mt-[80px]">
+  <li *ngIf="entry.previous" class="basis-1/2 text-sm text-zinc-500 truncate pr-3"><hero-icon name="arrow-circle-left" type="outline" class="mr-1 w-4 h-4"></hero-icon><a class="hover:text-mnemonic-orange" [routerLink]="['/blog', entry.previous.id]">{{ entry.previous.title }}</a></li>
+  <li *ngIf="entry.next" class="basis-1/2 text-sm text-zinc-500 truncate pl-3"><a class="hover:text-mnemonic-orange" [routerLink]="['/blog', entry.next.id]">{{ entry.next.title }}</a><hero-icon name="arrow-circle-right" type="outline" class="ml-1 w-4 h-4"></hero-icon></li>
+</ul>

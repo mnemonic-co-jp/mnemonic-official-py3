@@ -48,7 +48,12 @@ def get_entry(id: int):
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
-    return entry.to_dict()
+    keys = Entry.fetch_all_sorted_keys()
+    index = keys.index(entry.key)
+    result = entry.to_dict()
+    result['previous'] = keys[index - 1].get().to_tiny_dict() if index > 0 else None
+    result['next'] = keys[index + 1].get().to_tiny_dict() if index < len(keys) - 1 else None
+    return result
 
 class ContactRequestModel(pydantic.BaseModel):
     name: str

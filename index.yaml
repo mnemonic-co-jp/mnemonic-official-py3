@@ -5,3 +5,9 @@ indexes:
   - name: is_deleted
   - name: date
     direction: desc
+
+- kind: Entry
+  properties:
+  - name: is_deleted
+  - name: is_published
+  - name: date

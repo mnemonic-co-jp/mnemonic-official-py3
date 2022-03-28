@@ -6,6 +6,14 @@ export interface Entry {
   body: string;
   tags: string;
   views: number[];
+  previous: {
+    id: number;
+    title: string;
+  } | null;
+  next: {
+    id: number;
+    title: string;
+  } | null;
   isPublished: boolean;
   isDeleted: boolean;
 }

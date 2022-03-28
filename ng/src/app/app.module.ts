@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { clock, tag, HeroIconModule } from 'ng-heroicon';
+import { clock, tag, arrowCircleLeft, arrowCircleRight, HeroIconModule } from 'ng-heroicon';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { NgxTwitterWidgetsModule } from 'ngx-twitter-widgets';
 import { MarkdownModule } from 'ngx-markdown';
@@ -32,7 +32,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HttpClientModule,
     HeroIconModule.forRoot({
       clock,
-      tag
+      tag,
+      arrowCircleLeft,
+      arrowCircleRight
     }, {
       defaultHostDisplay: 'inlineBlock',
       attachDefaultDimensionsIfNoneFound: true

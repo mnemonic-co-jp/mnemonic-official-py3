@@ -29,6 +29,16 @@ class Entry(BaseModel):
     is_published = ndb.BooleanProperty(default=True)
     is_deleted = ndb.BooleanProperty(default=False)
 
+    @classmethod
+    def fetch_all_sorted_keys(cls):
+        return cls.query(cls.is_published == True, cls.is_deleted == False).order(cls.date).fetch(keys_only=True)
+
+    def to_tiny_dict(self):
+        return {
+            'id': self.key.id(),
+            'title': self.title
+        }
+
 class Tag(BaseModel):
     name = ndb.StringProperty()
     name_lower = ndb.ComputedProperty(lambda self: self.name.lower())
