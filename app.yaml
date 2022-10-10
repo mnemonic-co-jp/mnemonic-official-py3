@@ -5,6 +5,10 @@ runtime: python39
 entrypoint: uvicorn main:app --port=${PORT}
 
 handlers:
+- url: /admin/api/(.+)
+  script: auto
+  secure: always
+  login: admin
 - url: /api/(.+)
   script: auto
   secure: always

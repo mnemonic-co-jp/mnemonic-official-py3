@@ -1,4 +1,5 @@
 import os, jinja2, json, pydantic, requests, yaml, sendgrid
+import admin
 from fastapi import FastAPI, Request, Response, Depends, HTTPException
 from google.cloud import ndb, tasks_v2
 from sendgrid.helpers.mail import Mail
@@ -6,6 +7,8 @@ from typing import Optional
 from models import Entry
 
 app = FastAPI()
+app.include_router(admin.router)
+
 ndb_client = ndb.Client()
 tasks_client = tasks_v2.CloudTasksClient()
 project_name = 'mnemonic-official-py3'
