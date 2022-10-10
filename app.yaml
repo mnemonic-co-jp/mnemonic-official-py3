@@ -1,5 +1,5 @@
 # application: mnemonic-official-py3
-# version: test
+# version: beta
 
 runtime: python39
 entrypoint: uvicorn main:app --port=${PORT}
