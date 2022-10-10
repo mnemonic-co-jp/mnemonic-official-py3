@@ -13,3 +13,7 @@ $ yarn start
 $ yarn build
 $ yarn deploy <version>
 ```
+pip で新たにライブラリをインストールしたなら、ｄeply の前に...
+```
+$ pipenv lock -r > requirements.txt
+```
