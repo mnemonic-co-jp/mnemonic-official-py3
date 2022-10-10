@@ -9,7 +9,8 @@
 *.py[cod]
 __pycache__/
 
-*.yaml
+app.yaml
+index.yaml
 package.json
 package-lock.json
 Pipfile

@@ -13,6 +13,9 @@ pyyaml = "*"
 pydantic = "*"
 google-cloud-tasks = "*"
 jinja2 = "*"
+python-dateutil = "*"
+grpcio-status = "==1.48.2"
+protobuf = "==3.20.3"
 
 [dev-packages]
 
