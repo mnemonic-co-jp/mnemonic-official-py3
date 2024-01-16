@@ -11,7 +11,7 @@
     <ngx-twitter-tweet *ngFor="let tweetId of entry.tweetIds" [tweetID]="tweetId" [options]="{ lang: 'ja', layout: 'responsive' }"></ngx-twitter-tweet>
 
     <div class="mt-[60px]">
-      <markdown ngPreserveWhitespaces>{{ entry.body }}</markdown>
+      <markdown ngPreserveWhitespaces [data]="entry.body"></markdown>
     </div>
 
     <div class="absolute top-0 right-0" id="rightAd">
