@@ -1,62 +1,17 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+$font-family-base: system-ui, -apple-system, "IBM Plex Sans JP", sans-serif;
+$body-color: #52525b;
 
-@layer components {
-  .btn-primary {
-    @apply bg-mnemonic-orange text-white font-semibold rounded px-4 py-1
-  }
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
 
-  markdown {
-    p {
-      @apply mb-3
-    }
+$custom-colors: (
+  "mnemonic": #ff9326,
+  "zinc": #a1a1aa
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
 
-    blockquote {
-      @apply text-sm leading-6 border border-zinc-300 border-0 border-l-4 my-5 px-3
-    }
+@import "bootstrap/scss/bootstrap";
 
-    code {
-      @apply text-xs text-rose-500 bg-zinc-400/20 border border-zinc-300 rounded px-1 py-[2px]
-    }
-
-    pre {
-      @apply text-xs leading-5 break-all break-words bg-zinc-400/20 border border-zinc-300 rounded my-6 p-4 overflow-auto
-    }
-
-    pre code {
-      @apply text-current bg-transparent border-0 rounded-none p-0
-    }
-  }
-}
-
-.hi-d-inline-block {
-  vertical-align: text-bottom;
-}
-
-.container {
-  max-width: 1024px;
-}
-
-.contentBody {
-  background: #fff url("/assets/images/bg_sub.jpg") top center no-repeat;
-  background-attachment: fixed;
-}
-
-#page-home {
-  .contentBody {
-    background-image: url("/assets/images/bg_main.jpg");
-
-    > .container > .flex {
-      height: calc(100vh - 182px);
-
-      article {
-        height: 100%;
-      }
-    }
-  }
-}
-
-.grecaptcha-badge {
-  visibility: hidden;
+.text-sm {
+  font-size: 0.875rem;
 }

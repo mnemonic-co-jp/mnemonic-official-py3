@@ -1,30 +1,30 @@
-<div class="flex flex-col h-full">
-  <p class="font-semibold mt-10">勉強させていただきます</p>
+<div class="d-flex flex-column h-100">
+  <p class="fw-semibold mt-5 mb-0">勉強させていただきます。</p>
 
-  <dl class="text-sm mt-14">
-    <dt class="font-semibold mb-1">2022年3月某日</dt>
+  <dl class="text-sm mt-5">
+    <dt class="fw-semibold mb-1">2024年11月某日</dt>
     <dd>
-      <div>サイトをリューアルしました（主にサーバ側の変更のため、見た目的にはマイナーチェンジに過ぎませんが）。</div>
-
-      <ul class="list-disc list-inside mt-4 ml-4">
-        <li>Google App Engine / Python のバージョンを 2.7 から 3.9 へ</li>
+      <div>サイトをリューアルしました（見た目的にはマイナーチェンジに過ぎませんが）。</div>
+  
+      <ul class="mt-3">
+        <li>Google App Engine / Python のバージョンを 2.7 から 3.12 へ</li>
         <li>フレームワークを WebApp2 から FastAPI に置き換え</li>
-        <li>フロント側も Angular 12 + Tailwind CSS 3 で大幅書き換え</li>
+        <li>フロント側も Angular 18 + Bootstrap 5 で大幅書き換え</li>
       </ul>
     </dd>
   </dl>
 
   <section class="mt-auto">
-    <div class="border border-zinc-200 bg-white/50 px-4 py-3">
-      <h1 class="font-bold mb-2">直近（?）のブログ記事</h1>
+    <div class="entries border px-4 py-3">
+      <h1 class="mb-2">直近（?）のブログ記事</h1>
 
       <p *ngIf="!entries" class="text-sm"><em>読み込み中です...</em></p>
 
       <div *ngIf="entries">
-        <dl *ngIf="entries.length > 0" class="flex flex-wrap text-sm w-full">
+        <dl *ngIf="entries.length > 0" class="d-flex flex-wrap text-sm mb-0 w-100">
           <ng-container *ngFor="let entry of entries">
-            <dt class="w-[8rem]">{{ entry.date | date:'yyyy年M月d日' }}</dt>
-            <dd class="truncate w-[calc(100%_-_8rem)] mb-1"><a class="hover:text-black" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
+            <dt>{{ entry.date | date:'yyyy年M月d日' }}</dt>
+            <dd><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
           </ng-container>
         </dl>
 

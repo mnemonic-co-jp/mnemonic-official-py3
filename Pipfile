@@ -3,6 +3,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+start = "uvicorn main:app --host 0.0.0.0 --port 8080 --reload"
+
 [packages]
 uvicorn = {extras = ["standard"], version = "*"}
 fastapi = "*"
@@ -14,10 +17,6 @@ pydantic = "*"
 google-cloud-tasks = "*"
 jinja2 = "*"
 python-dateutil = "*"
-grpcio-status = "==1.48.2"
-protobuf = "==3.20.3"
-chardet = "*"
-setuptools = "*"
 
 [dev-packages]
 

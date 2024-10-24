@@ -1,0 +1,91 @@
+.logomark {
+  left: .75rem;
+  top: 22px;
+  width: 160px
+}
+
+nav {
+  ul {
+    list-style: none;
+    padding-left: 200px;
+    height: 44px;
+
+    li {
+      margin-right: 1.25rem;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+        opacity: .75;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.contentBody {
+  background: #fff url(/images/bg_sub.jpg) top center no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+
+  &.isHome {
+    background-image: url(/images/bg_main.jpg);
+  }
+
+  header {
+    .container {
+      padding-top: 120px;
+      padding-left: 210px;
+      height: 182px;
+
+      .headding {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-weight: 700;
+        letter-spacing: .5rem;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, .5);
+      }
+    }
+  }
+
+  .mainContainer {
+    min-height: calc(100vh - 182px);
+
+    .mainContainerInner {
+      height: calc(100vh - 182px);
+
+      aside {
+        width: 160px;
+        max-height: 100%;
+        overflow: auto;
+      }
+
+      main {
+        margin-left: 70px;
+        padding-bottom: 100px;
+        width: calc(100% - 230px);
+        height: 100%;
+
+        article {
+          height: 100%;
+        }
+      }
+
+      footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        address {
+          font-size: .75rem;
+          line-height: 1rem;
+          font-style: normal;
+        }
+      }
+    }
+  }
+}

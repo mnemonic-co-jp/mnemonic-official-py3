@@ -1,18 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
 
 @Component({
-  selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+  name: string = 'home';
+
   entries: Entry[] | null = null;
 
-  constructor(private entriesService: EntriesService) {}
-
-  ngOnInit(): void {
+  constructor(private entriesService: EntriesService) {
     this.fetchRecentEntries(5);
   }
 
