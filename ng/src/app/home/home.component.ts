@@ -16,10 +16,10 @@ const NUM_OF_ENTRIES = 5;
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  name: string = 'home';
-  entriesAreLoading: boolean = false;
-
+  readonly name: string = 'home';
+  
   entries: Entry[] | null = null;
+  entriesAreLoading: boolean = false;
 
   constructor(private entriesService: EntriesService) {
     this.fetchRecentEntries();
