@@ -50,3 +50,7 @@
     </div>
   </div>
 </div>
+
+<div class="toastWrapper">
+  <ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true" [delay]="toast.delay || 3000" (hidden)="toastService.remove(toast)">{{ toast.body }}</ngb-toast>
+</div>

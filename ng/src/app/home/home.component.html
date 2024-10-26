@@ -18,17 +18,17 @@
     <div class="entries border px-4 py-3">
       <h1 class="mb-2">直近（?）のブログ記事</h1>
 
-      <p *ngIf="!entries" class="text-sm"><em>読み込み中です...</em></p>
+      <p *ngIf="entriesAreLoading" class="text-sm"><em>読み込み中です...</em></p>
 
-      <div *ngIf="entries">
-        <dl *ngIf="entries.length > 0" class="d-flex flex-wrap text-sm mb-0 w-100">
+      <div *ngIf="!entriesAreLoading">
+        <dl *ngIf="entries && entries.length > 0" class="d-flex flex-wrap text-sm mb-0 w-100">
           <ng-container *ngFor="let entry of entries">
             <dt>{{ entry.date | date:'yyyy年M月d日' }}</dt>
             <dd><a [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
           </ng-container>
         </dl>
 
-        <p *ngIf="entries.length === 0" class="text-sm">記事はまだありません。</p>
+        <p *ngIf="entries && entries.length === 0" class="text-sm">記事はまだありません。</p>
       </div>
     </div>
   </section>

@@ -89,3 +89,14 @@ nav {
     }
   }
 }
+
+.toastWrapper {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  z-index: 1200;
+
+  .toast {
+    margin-bottom: 3px;
+  }
+}

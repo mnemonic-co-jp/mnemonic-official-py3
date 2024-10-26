@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
 
+const NUM_OF_ENTRIES = 5;
+
 @Component({
   standalone: true,
   imports: [
@@ -15,19 +17,27 @@ import { Entry } from '../shared/models/entry.model';
 })
 export class HomeComponent {
   name: string = 'home';
+  entriesAreLoading: boolean = false;
 
   entries: Entry[] | null = null;
 
   constructor(private entriesService: EntriesService) {
-    this.fetchRecentEntries(5);
+    this.fetchRecentEntries();
   }
 
-  fetchRecentEntries(limit: number): void {
+  fetchRecentEntries(): void {
+    this.entriesAreLoading = true;
     // ブログ記事の最新 n 件を取得
     this.entriesService.fetch({
       sort: '-date',
       fields: 'title,date',
-      limit: limit
-    }).subscribe((entries: Entry[]) => this.entries = entries);
+      limit: NUM_OF_ENTRIES
+    }).subscribe({
+      next: (entries: Entry[]) => {
+        this.entries = entries;
+        this.entriesAreLoading = false;
+      },
+      error: () => this.entriesAreLoading = false
+    });
   }
 }
