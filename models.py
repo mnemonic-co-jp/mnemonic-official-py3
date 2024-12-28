@@ -4,6 +4,7 @@ from google.cloud import ndb
 
 JST = tz.gettz('Asia/Tokyo')
 
+
 class BaseModel(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True, tzinfo=JST)
     updated_at = ndb.DateTimeProperty(auto_now=True, tzinfo=JST)
@@ -18,6 +19,7 @@ class BaseModel(ndb.Model):
             camel_key = re.sub('_(.)', lambda x: x.group(1).upper(), key)
             result[camel_key] = value
         return result
+
 
 class Entry(BaseModel):
     title = ndb.StringProperty()
@@ -38,6 +40,7 @@ class Entry(BaseModel):
             'id': self.key.id(),
             'title': self.title
         }
+
 
 class Tag(BaseModel):
     name = ndb.StringProperty()
