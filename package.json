@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/forms": "^0.5.9",
+    "angular-oauth2-oidc": "^19.0.0",
     "bootstrap": "^5.3.3",
     "date-fns": "^4.1.0",
     "ng-heroicon": "^3.0.1",

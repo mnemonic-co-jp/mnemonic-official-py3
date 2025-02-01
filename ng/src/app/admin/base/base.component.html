@@ -1,0 +1,7 @@
+<div *ngIf="profile">
+  <p>{{ profile['name'] }}</p>
+
+  <p><button (click)="logout()">ログアウト</button></p>
+
+  <router-outlet></router-outlet>
+</div>
