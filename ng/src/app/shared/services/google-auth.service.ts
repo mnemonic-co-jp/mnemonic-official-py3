@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OAuthService, OAuthErrorEvent } from 'angular-oauth2-oidc';
 
-// const WHITELIST = ['somin1968@gmail.com', 'somin@mnemonic.co.jp'];
 const WHITELIST = ['somin1968@gmail.com'];
 
 type Profile = Record<string, any> | null;
