@@ -1,7 +1,23 @@
-<div *ngIf="profile">
-  <p>{{ profile['name'] }}</p>
+<header class="navbar stickey-top bg-dark shadow" data-bs-theme="dark">
+  <div class="container-fluid px-3">
+    <div class="navbar-brand fs-6 text-white">株式会社ニーモニック<span class="ms-3">管理画面</span></div>
 
-  <p><button (click)="logout()">ログアウト</button></p>
+    <div *ngIf="profile" class="navbar-text">{{ profile['name'] }}</div>
+  </div>
+</header>
 
-  <router-outlet></router-outlet>
+<div class="container-fluid">
+  <div class="row">
+    <div class="sidebar bg-body-tertiary border border-right col-2 p-0">
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link">ほげほげ</a></li>
+
+        <li class="nav-item"><button class="nav-link" (click)="logout()">ログアウト</button></li>
+      </ul>
+    </div>
+
+    <main class="col-10 px-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
