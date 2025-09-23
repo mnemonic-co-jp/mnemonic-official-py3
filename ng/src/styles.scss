@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $font-family-base: system-ui, -apple-system, "IBM Plex Sans JP", sans-serif;
 $body-color: #52525b;
 
@@ -8,7 +10,7 @@ $custom-colors: (
   "mnemonic": #ff9326,
   "zinc": #a1a1aa
 );
-$theme-colors: map-merge($theme-colors, $custom-colors);
+$theme-colors: map.merge($theme-colors, $custom-colors);
 
 @import "bootstrap/scss/bootstrap";
 
