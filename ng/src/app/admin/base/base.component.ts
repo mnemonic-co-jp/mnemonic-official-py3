@@ -20,11 +20,11 @@ export class AdminBaseComponent {
   constructor(private authService: GoogleAuthService) {
     this.authService.getProfile().then((profile: Profile) => {
       console.log(profile);
-      if (!profile) {
+      if (profile) {
+        this.profile = profile;
+      } else {
         this.authService.login();
-        return;
       }
-      this.profile = profile;
     });
   }
 

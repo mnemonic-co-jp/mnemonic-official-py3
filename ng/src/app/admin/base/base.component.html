@@ -1,12 +1,12 @@
-<header class="navbar stickey-top bg-dark shadow" data-bs-theme="dark">
+<header *ngIf="profile" class="navbar stickey-top bg-dark shadow" data-bs-theme="dark">
   <div class="container-fluid px-3">
     <div class="navbar-brand fs-6 text-white">株式会社ニーモニック<span class="ms-3">管理画面</span></div>
 
-    <div *ngIf="profile" class="navbar-text">{{ profile['name'] }}</div>
+    <div class="navbar-text">{{ profile['name'] }}</div>
   </div>
 </header>
 
-<div class="container-fluid">
+<div *ngIf="profile" class="container-fluid">
   <div class="row">
     <div class="sidebar bg-body-tertiary border border-right col-2 p-0">
       <ul class="nav flex-column">
