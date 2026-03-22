@@ -1,7 +1,7 @@
 <div class="position-fixed start-0 end-0 top-0 bg-mnemonic w-full z-10">
   <div class="container position-relative mx-auto z-11">
     <div class="logomark position-absolute">
-      <a routerLink="/"><img class="border border-secondary w-100 h-auto" src="/images/logo.png" alt="ニモニク"></a>
+      <a routerLink="/"><img class="border border-secondary w-100 h-auto" src="/images/logo.png" alt="ニモニク" /></a>
     </div>
 
     <nav>
@@ -10,13 +10,13 @@
         <li><a routerLink="/about">弊社について</a></li>
         <!-- li><a routerLink="/works">実績紹介</a></li -->
         <li><a routerLink="/blog">技術ブログ</a></li>
-        <li><a routerLink="/contact">お問い合わせ</a></li>
+        <li><a routerLink="/inquiry">お問い合わせ</a></li>
       </ul>
     </nav>
   </div>
 </div>
 
-<div class="contentBody" [class]="{ isHome: isHome }">
+<div class="contentBody" [ngClass]="{ isHome: isHome }">
   <header>
     <div class="container mx-auto">
       <h1 class="headding text-zinc m-0">株式会社ニーモニック</h1>

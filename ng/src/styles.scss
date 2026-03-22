@@ -2,6 +2,8 @@
 
 $font-family-base: system-ui, -apple-system, "IBM Plex Sans JP", sans-serif;
 $body-color: #52525b;
+$table-bg: tarnsparent;
+$table-th-font-weight: 500;
 
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
@@ -16,4 +18,25 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 
 .text-sm {
   font-size: 0.875rem;
+}
+
+main {
+  article {
+    section {
+      margin-top: 60px;
+
+      h2 {
+        font-size: 20px;
+        line-height: 1.4;
+        text-shadow: 0 2px 1px #fff;
+        margin: 0 0 20px 0;
+      }
+
+      p {
+        line-height: 1.6;
+        text-shadow: 0 0 1px rgba(0, 0, 0, .1);
+        margin: 0 0 10px 0;
+      }
+    }
+  }
 }
