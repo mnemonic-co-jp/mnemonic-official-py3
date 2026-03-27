@@ -1,0 +1,9 @@
+<div *ngIf="entry">
+  <header>
+    <h2 class="h1">{{ entry.title }}</h2>
+
+    <p class="text-sm mt-4 mb-2"><i class="bi bi-clock"></i> {{ entry.date | date:'yyyy年M月d日 HH時mm分' }}</p>
+
+    <p><i class="bi bi-tag-fill"></i></p>
+  </header>
+</div>

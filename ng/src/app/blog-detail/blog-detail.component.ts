@@ -1,30 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Params } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
 
 @Component({
-  selector: 'app-blog-detail',
+  imports: [CommonModule],
   templateUrl: './blog-detail.component.html',
-  styleUrls: ['./blog-detail.component.scss']
+  styleUrl: './blog-detail.component.scss'
 })
-export class BlogDetailComponent implements OnInit {
+export class BlogDetailComponent {
   entry: Entry | null = null;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private entriesService: EntriesService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.route.params.subscribe((params: Params) => {
       const entryId: number = +params['id'];
-      this.getEntry(entryId);
+      this.getRecentEntry(entryId);
     });
   }
 
-  getEntry(entryId: number): void {
+  getRecentEntry(entryId: number) {
     this.entriesService.get(entryId).subscribe((entry: Entry) => {
       this.entry = entry;
     });

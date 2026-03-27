@@ -18,4 +18,8 @@ export class EntriesService {
       })
     });
   }
+
+  get(entryId: number): Observable<Entry> {
+    return this.http.get<Entry>(`${this.url}${entryId}`);
+  }
 }
