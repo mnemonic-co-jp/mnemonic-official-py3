@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
+import { provideMarkdown } from 'ngx-markdown';
 import { coreInterceptor } from './shared/interceptors/core.interceptor';
 import { googleAuthInterceptor } from './shared/interceptors/google-auth.interceptor';
 
@@ -11,6 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([coreInterceptor, googleAuthInterceptor])),
-    provideOAuthClient()
+    provideOAuthClient(),
+    provideMarkdown()
   ]
 };

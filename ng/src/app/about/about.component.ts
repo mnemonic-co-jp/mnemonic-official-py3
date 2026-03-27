@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AboutComponent {
   readonly name: string = 'about';
-  readonly title: string = 'ニーモニックについて';
+  readonly pageTitle: string = 'ニーモニックについて';
 }

@@ -53,3 +53,39 @@ main {
     }
   }
 }
+
+markdown {
+  code {
+    display: inline-block;
+    font-size: 0.75rem;
+    vertical-align: bottom;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 2px 8px;
+  }
+
+  pre {
+    font-size: 0.875rem !important;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 20px 0 !important;
+
+    > code {
+      display: unset;
+      color: var(--bs-body-color) !important;
+      border: 0 none;
+      padding: 0;
+    }
+  }
+
+  .line-numbers {
+    .line-numbers-rows {
+      top: -2px;
+    }
+  }
+
+  hr {
+    margin: 20px 0 !important;
+  }
+}

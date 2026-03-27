@@ -1,5 +1,5 @@
-<div class="position-fixed start-0 end-0 top-0 bg-mnemonic w-full z-10">
-  <div class="container position-relative mx-auto z-11">
+<div class="logoAndNav position-fixed start-0 end-0 top-0 bg-mnemonic w-100">
+  <div class="container position-relative mx-auto">
     <div class="logomark position-absolute">
       <a routerLink="/"><img class="border border-secondary w-100 h-auto" src="/images/logo.png" alt="ニモニク" /></a>
     </div>
@@ -23,24 +23,26 @@
     </div>
   </header>
 
-  <div class="mainContainer container position-relative mx-auto">
-    <div class="mainContainerInner d-flex">
-      <aside role="complementary">
-        <div class="mt-5">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4887705385405786" crossorigin="anonymous"></script>
-          <!-- mini_skyscraper -->
-          <ins class="adsbygoogle" style="display:inline-block;width:160px;height:480px;border:1px solid #ccc;" data-ad-client="ca-pub-4887705385405786" data-ad-slot="1560402219"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
-      </aside>
+  <div class="mainContainer container mx-auto">
+    <div class="mainContainerInner">
+      <div class="d-flex h-100">
+        <aside role="complementary">
+          <div class="mt-5">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4887705385405786" crossorigin="anonymous"></script>
+            <!-- mini_skyscraper -->
+            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:480px;border:1px solid #ccc;" data-ad-client="ca-pub-4887705385405786" data-ad-slot="1560402219"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        </aside>
 
-      <main role="main">
-        <article>
-          <router-outlet (activate)="onActivate($event)"></router-outlet>
-        </article>
-      </main>
+        <main role="main">
+          <article>
+            <router-outlet (activate)="onActivate($event)"></router-outlet>
+          </article>
+        </main>
+      </div>
 
       <footer>
         <div class="container text-zinc mx-auto py-2">

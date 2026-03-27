@@ -8,7 +8,7 @@ import { ToastService } from '../shared/services/toast.service';
 
 interface ComponentRef {
   name?: string;
-  title?: string;
+  pageTitle?: string;
 }
 
 const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
@@ -38,7 +38,7 @@ export class BaseComponent {
   onActivate(componentRef: ComponentRef) {
     // NOTE: 変更タイミングをずらさないと NG0100 のエラーになる
     setTimeout(() => this.isHome = componentRef?.name === 'home');
-    const title = componentRef?.title;
+    const title = componentRef?.pageTitle;
     if (title) {
       this.title.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
     }
