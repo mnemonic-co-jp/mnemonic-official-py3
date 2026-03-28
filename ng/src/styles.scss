@@ -10,7 +10,9 @@ $table-th-font-weight: 500;
 
 $body-color: $gray-700;
 $link-color: #ff9326;
+$link-decoration: none;
 $link-hover-color: shift-color($link-color, $link-shade-percentage);
+$link-hover-decoration: underline;
 
 $custom-colors: (
   "mnemonic": #ff9326,
@@ -20,10 +22,6 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons";
-
-.text-sm {
-  font-size: 0.875rem;
-}
 
 main {
   article {

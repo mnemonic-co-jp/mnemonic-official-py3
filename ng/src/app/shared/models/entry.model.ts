@@ -4,7 +4,7 @@ export interface Entry {
   date: string;
   tweetIds: string[];
   body: string;
-  tags: string;
+  tags: string[];
   views: number[];
   previous: {
     id: number;

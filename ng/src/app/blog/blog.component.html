@@ -1,0 +1,30 @@
+<section>
+  <p>日々の業務において技術面で躓いたりハマったりしたことがあれば、会社のアカウント（ <a href="https://twitter.com/mnemoniccojp" target="_blank">@mnemoniccojp</a> ）で逐一ツイートするようにしています。そして当ブログは、これらのツイートにフォロー追記したもの。いわゆるひとつのオウンドメディアってやつです。</p>
+
+  <p>まだまだ使いづらい部分もありますが、どうか長い目で見てやってください。</p>
+</section>
+
+<section>
+  <h1 class="h5 mb-4">ブログ記事一覧</h1>
+
+  <p *ngIf="entriesAreLoading" class="text-sm"><em>読み込み中です...</em></p>
+
+  <div *ngIf="!entriesAreLoading">
+    <ul *ngIf="entries && entries.length > 0" class="list-unstyled">
+      <li class="d-flex align-items-center mb-3" *ngFor="let entry of entries">
+        <dl class="calendar flex-shrink-0 mb-0">
+          <dt class="text-white text-center bg-mnemonic py-1">{{ entry.date | date:'MMM' }}</dt>
+          <dd class="h3 text-center border border-secondary mb-0">{{ entry.date | date:'dd' }}</dd>
+        </dl>
+
+        <div class="flex-grow-1 ms-4">
+          <h3 class="title h5 mt-0 mb-1 lh-sm"><a class="link-dark link-offset-2" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
+
+          <p class="text-black-50 mb-0"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}<span class="px-2">|</span><i class="bi bi-tag-fill"></i>{{ entry.tagString }}</small></p>
+        </div>
+      </li>
+    </ul>
+
+    <p *ngIf="entries && entries.length === 0" class="text-sm">記事はまだありません。</p>
+  </div>
+</section>
