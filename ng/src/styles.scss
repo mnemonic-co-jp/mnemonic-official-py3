@@ -1,12 +1,16 @@
 @use "sass:map";
 
 $font-family-base: system-ui, -apple-system, "IBM Plex Sans JP", sans-serif;
-$body-color: #52525b;
+$line-height-base: 1.6;
 $table-bg: tarnsparent;
 $table-th-font-weight: 500;
 
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+
+$body-color: $gray-700;
+$link-color: #ff9326;
+$link-hover-color: shift-color($link-color, $link-shade-percentage);
 
 $custom-colors: (
   "mnemonic": #ff9326,
@@ -55,6 +59,14 @@ main {
 }
 
 markdown {
+  blockquote {
+    color: #666;
+    font-size: 0.875rem;
+    border-left: 4px solid #ddd;
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+
   code {
     display: inline-block;
     font-size: 0.75rem;
