@@ -2,7 +2,7 @@
   <p class="fw-semibold mt-4 mb-0">勉強させていただきます。</p>
 
   <dl class="text-sm mt-5">
-    <dt class="fw-semibold mb-1">2026年3月某日</dt>
+    <dt class="fw-semibold mb-2">2026年3月某日</dt>
     <dd>
       <div>サイトをリューアルしました（見た目的にはマイナーチェンジに過ぎませんが）。</div>
   
@@ -18,7 +18,7 @@
 
   <section class="mt-auto">
     <div class="entries border px-4 py-3">
-      <h2 class="h6 mb-2">直近（?）のブログ記事</h2>
+      <h2 class="h6 mb-3">直近（?）のブログ記事</h2>
 
       <p *ngIf="entriesAreLoading" class="text-sm"><em>読み込み中です...</em></p>
 
@@ -26,7 +26,7 @@
         <dl *ngIf="entries && entries.length > 0" class="d-flex flex-wrap text-sm mb-0 w-100">
           <ng-container *ngFor="let entry of entries">
             <dt>{{ entry.date | date:'yyyy年M月d日' }}</dt>
-            <dd><a class="link-dark link-offset-1" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
+            <dd class="mb-2"><a class="link-dark link-offset-1" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
           </ng-container>
         </dl>
 

@@ -5,6 +5,10 @@ dl {
   ul {
     list-style-type: disc;
     list-style-position: inside;
+
+    li {
+      margin-bottom: .5rem;
+    }
   }
 }
 

@@ -18,7 +18,7 @@ interface EntryAlt extends Entry {
   styleUrl: './blog.component.scss',
 })
 export class BlogComponent {
-  readonly pageTitle: string = '技術ブログ';
+  readonly pageTitle: string = 'ブログ記事一覧';
   entries: EntryAlt[] | null = null;
   entriesAreLoading: boolean = false;
 
