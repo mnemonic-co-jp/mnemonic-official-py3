@@ -4,10 +4,6 @@ import { RouterModule } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
 
-interface EntryAlt extends Entry {
-  tagString: string;
-}
-
 @Component({
   standalone: true,
   imports: [
@@ -19,7 +15,7 @@ interface EntryAlt extends Entry {
 })
 export class BlogComponent {
   readonly title: string = 'ブログ記事一覧';
-  entries: EntryAlt[] | null = null;
+  entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
 
   constructor(private entriesService: EntriesService) {
@@ -33,13 +29,14 @@ export class BlogComponent {
       fields: 'title,date,tags'
     }).subscribe({
       next: (entries: Entry[]) => {
-        this.entries = entries.map((entry: Entry) => ({
-          ...entry,
-          tagString: entry.tags.join(', ')
-        }));
+        this.entries = entries;
         this.entriesAreLoading = false;
       },
       error: () => this.entriesAreLoading = false
     });
+  }
+
+  getJoinedTag(entry: Entry): string {
+    return entry.tags.join(', ');
   }
 }
