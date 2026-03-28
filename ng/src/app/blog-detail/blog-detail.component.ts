@@ -20,12 +20,12 @@ import { Entry } from '../shared/models/entry.model';
 })
 export class BlogDetailComponent {
   readonly name: string = 'blog-detail';
-  readonly pageTitle: string = 'ブログ記事';
+  readonly title: string = 'ブログ記事';
   entry: Entry | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private title: Title,
+    private titleService: Title,
     private entriesService: EntriesService
   ) {
     this.route.params.subscribe((params: Params) => {
@@ -38,7 +38,7 @@ export class BlogDetailComponent {
     this.entriesService.get(entryId).subscribe((entry: Entry) => {
       this.entry = entry;
       // ページタイトルに記事名を付与する
-      this.title.setTitle(`ブログ記事: ${entry.title} | ${this.title.getTitle()}`);
+      this.titleService.setTitle(`ブログ記事: ${entry.title} | ${this.titleService.getTitle()}`);
     });
   }
 }

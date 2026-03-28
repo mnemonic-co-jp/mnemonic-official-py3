@@ -8,7 +8,7 @@ import { ToastService } from '../shared/services/toast.service';
 
 interface ComponentRef {
   name?: string;
-  pageTitle?: string;
+  title?: string;
 }
 
 const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
@@ -29,16 +29,16 @@ export class BaseComponent {
   currentYear: string = format(new Date(), 'yyyy');
 
   constructor(
-    private title: Title,
+    private titleService: Title,
     public toastService: ToastService
   ) {
-    this.title.setTitle(BASE_TITLE);
+    this.titleService.setTitle(BASE_TITLE);
   };
 
   onActivate(componentRef: ComponentRef) {
     // NOTE: 変更タイミングをずらさないと NG0100 のエラーになる
     setTimeout(() => this.isHome = componentRef?.name === 'home');
-    const title = componentRef?.pageTitle;
-    this.title.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
+    const title = componentRef?.title;
+    this.titleService.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
   }
 }
