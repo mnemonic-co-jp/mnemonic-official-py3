@@ -39,8 +39,6 @@ export class BaseComponent {
     // NOTE: 変更タイミングをずらさないと NG0100 のエラーになる
     setTimeout(() => this.isHome = componentRef?.name === 'home');
     const title = componentRef?.pageTitle;
-    if (title) {
-      this.title.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
-    }
+    this.title.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
   }
 }

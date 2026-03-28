@@ -17,6 +17,7 @@ const NUM_OF_ENTRIES = 5;
 })
 export class HomeComponent {
   readonly name: string = 'home';
+  readonly pageTitle: string = '';
   
   entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
