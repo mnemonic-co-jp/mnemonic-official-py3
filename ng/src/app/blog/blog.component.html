@@ -7,7 +7,7 @@
 <section>
   <h1 class="h5 mb-4">ブログ記事一覧</h1>
 
-  <p *ngIf="entriesAreLoading" class="text-sm"><em>読み込み中です...</em></p>
+  <p *ngIf="entriesAreLoading"><small>読み込み中です...</small></p>
 
   <div *ngIf="!entriesAreLoading">
     <ul *ngIf="entries && entries.length > 0" class="list-unstyled">
@@ -25,6 +25,6 @@
       </li>
     </ul>
 
-    <p *ngIf="entries && entries.length === 0" class="text-sm">記事はまだありません。</p>
+    <p *ngIf="entries && entries.length === 0">記事はまだありません。</p>
   </div>
 </section>
