@@ -8,7 +8,6 @@ from fastapi import FastAPI, Response, Depends, HTTPException
 from google.cloud import ndb, tasks_v2
 from brevo import Brevo
 from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransacEmailRequestToItem
-from typing import Optional
 from models import Entry
 
 ndb_client = ndb.Client()
@@ -70,8 +69,8 @@ def get_entry(id: int) -> dict:
 
 class InquiryRequestModel(pydantic.BaseModel):
     name: str
-    phone: Optional[str] = None
-    email: Optional[str] = None
+    phone: str | None = ''
+    email: str | None = ''
     body: str
     token: str
 
@@ -114,8 +113,8 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
 
 class SendInquiryPayloadModel(pydantic.BaseModel):
     name: str
-    phone: Optional[str] = None
-    email: Optional[str] = None
+    phone: str = None
+    email: str = None
     body: str
 
 
