@@ -1,3 +1,4 @@
+import logging
 import os
 import jinja2
 import json
@@ -10,6 +11,7 @@ from brevo import Brevo
 from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransacEmailRequestToItem
 from models import Entry
 
+logger = logging.getLogger('uvicorn')
 ndb_client = ndb.Client()
 tasks_client = tasks_v2.CloudTasksClient()
 project_name = 'mnemonic-official-py3'
@@ -88,12 +90,13 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     # reCAPTCHA v3 の verify（https://developers.google.com/recaptcha/docs/verify）
     response = session.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
     result = response.json()
+    logger.info(result)
     if not result['success'] or result['action'] != 'mnemonic':
-        # TODO: result['hostname'] をロギングする？
         raise HTTPException(status_code=400)
     if result['score'] < 0.5:
         raise HTTPException(status_code=403, detail='リクエストは拒否されました。')
     payload = inquiry.model_dump(exclude={'token'})
+    logger.info(payload)
     if os.getenv('GAE_INSTANCE', '') == '':
         send_inquiry_mail(SendInquiryPayloadModel(**payload))
         return
@@ -134,6 +137,7 @@ def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
         subject=f'【Mnemonic】{payload.name} さんからのお問い合わせ',
     )
     if response.status_code != 200:
+        logger.info(response.data)
         raise HTTPException(status_code=response.status_code)
 
 
