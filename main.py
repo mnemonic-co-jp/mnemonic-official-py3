@@ -32,14 +32,14 @@ with open('secret.yaml') as file:
 
 
 class QueryParams:
-    def __init__(self, sort: str = None, fields: str = None, limit: int = None, cursor: str = None):
+    def __init__(self, sort: str = None, fields: str = None, limit: int = None, cursor: str = None) -> None:
         self.orders = sort.split(',') if sort else None
         self.include = fields.split(',') if fields else None
         self.limit = limit
         self.start_cursor = ndb.Cursor(urlsafe=cursor) if cursor else ndb.Cursor()
 
 
-def fetched_response(query: ndb.query.Query, params: QueryParams, response: Response):
+def fetched_response(query: ndb.query.Query, params: QueryParams, response: Response) -> list[dict]:
     if params.orders:
         query = query.order(*params.orders)
     if params.limit:
@@ -51,12 +51,12 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
 
 
 @app.get('/api/entries/', dependencies=[Depends(create_context)])
-def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)):
+def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)) -> list[dict]:
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
 
 
 @app.get('/api/entries/{id}', dependencies=[Depends(create_context)])
-def get_entry(id: int):
+def get_entry(id: int) -> dict:
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
@@ -119,7 +119,7 @@ class SendInquiryPayloadModel(pydantic.BaseModel):
     body: str
 
 
-def send_inquiry_mail(payload: SendInquiryPayloadModel):
+def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
     brevo_client = Brevo(api_key=SECRET['brevo']['apikey'])
     response = brevo_client.transactional_emails.with_raw_response.send_transac_email(
         sender=SendTransacEmailRequestSender(
@@ -139,5 +139,5 @@ def send_inquiry_mail(payload: SendInquiryPayloadModel):
 
 
 @app.post('/task/inquiry/send_mail/', dependencies=[Depends(create_context)])
-def post_send_inquiry_mail(payload: SendInquiryPayloadModel):
+def post_send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
     send_inquiry_mail(payload)
