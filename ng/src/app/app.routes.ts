@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { BlogComponent } from './blog/blog.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { InquiryComponent } from './inquiry/inquiry.component';
 import { AdminBaseComponent } from './admin/base/base.component';
 import { AdminHomeComponent } from './admin/home/home.component';
 
@@ -12,7 +13,8 @@ export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'about', component: AboutComponent },
     { path: 'blog', component: BlogComponent },
-    { path: 'blog/:id', component: BlogDetailComponent }
+    { path: 'blog/:id', component: BlogDetailComponent },
+    { path: 'inquiry', component: InquiryComponent }
   ]},
   { path: 'admin', component: AdminBaseComponent, children: [
     { path: '', component: AdminHomeComponent }

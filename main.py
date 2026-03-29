@@ -4,11 +4,10 @@ import json
 import pydantic
 import requests
 import yaml
-import sendgrid
 from fastapi import FastAPI, Response, Depends, HTTPException
 from google.cloud import ndb, tasks_v2
-from sendgrid.helpers.mail import Mail
-from typing import Optional
+from brevo import Brevo
+from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransacEmailRequestToItem
 from models import Entry
 
 app = FastAPI()
@@ -68,66 +67,61 @@ def get_entry(id: int):
     return result
 
 
-class ContactRequestModel(pydantic.BaseModel):
-    name: str
-    phone: Optional[str] = None
-    email: Optional[str] = None
-    body: str
-    token: str
-
-
-@app.post('/api/contact/', dependencies=[Depends(create_context)])
-def post_contact(contact: ContactRequestModel):
+@app.post('/api/inquiry/', dependencies=[Depends(create_context)])
+def post_inquiry(inquiry: InquiryRequestModel) -> None:
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(max_retries=3)
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     payload = {
         'secret': SECRET['recaptcha']['secret'],
-        'response': contact.token
+        'response': inquiry.token
     }
     # reCAPTCHA v3 の verify（https://developers.google.com/recaptcha/docs/verify）
     response = session.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
     result = response.json()
-    print(result)
-    if not result['success'] or result['action'] != 'submitContact':
+    if not result['success'] or result['action'] != 'mnemonic':
         # TODO: result['hostname'] をロギングする？
         raise HTTPException(status_code=400)
     if result['score'] < 0.5:
         raise HTTPException(status_code=403, detail='リクエストは拒否されました。')
-    payload = contact.dict(exclude={'token': True})
-    enqueue_send_contact_mail(payload)
-    return {}
-
-
-def enqueue_send_contact_mail(payload):
+    payload = inquiry.model_dump(exclude={'token'})
     if os.getenv('GAE_INSTANCE', '') == '':
-        send_contact_mail(payload)
+        send_inquiry_mail(SendInquiryPayloadModel(**payload))
         return
-    parent = tasks_client.queue_path(project_name, tasks_location, 'send-contact-mail')
+    parent = tasks_client.queue_path(project_name, tasks_location, 'send-inquiry-mail')
     task = {
         'app_engine_http_request': {
             'http_method': tasks_v2.HttpMethod.POST,
-            'relative_uri': '/task/contact/send_mail/',
+            'relative_uri': '/task/inquiry/send_mail/',
             'headers': {
                 'Content-type': 'application/json'
             },
             'body': json.dumps(payload).encode()
         }
     }
-    return tasks_client.create_task(parent=parent, task=task)
+    tasks_client.create_task(parent=parent, task=task)
 
 
-def send_contact_mail(payload):
-    message = Mail(
-        from_email=('noreply@mnemonic.co.jp'),
-        subject=f'【Mnemonic】{payload["name"]} さんからのお問い合わせ',
-        plain_text_content=jinja_environment.get_template('email/contact.txt').render(payload),
-        to_emails='somin@mnemonic.co.jp'
+def send_inquiry_mail(payload: SendInquiryPayloadModel):
+    brevo_client = Brevo(api_key=SECRET['brevo']['apikey'])
+    response = brevo_client.transactional_emails.with_raw_response.send_transac_email(
+        sender=SendTransacEmailRequestSender(
+            name='Mnemonic Co., Ltd.',
+            email='noreply@mnemonic.co.jp',
+        ),
+        to=[
+            SendTransacEmailRequestToItem(
+                email='somin@mnemonic.co.jp'
+            )
+        ],
+        html_content=jinja_environment.get_template('email/inquiry.html').render(payload),
+        subject=f'【Mnemonic】{payload.name} さんからのお問い合わせ',
     )
-    try:
-        sendgrid_client = sendgrid.SendGridAPIClient(api_key=SECRET['sendgrid']['apikey'])
-        sendgrid_client.send(message)
-    except Exception as e:
-        print(e)
-    return
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code)
+
+
+@app.post('/task/inquiry/send_mail/', dependencies=[Depends(create_context)])
+def post_send_inquiry_mail(payload: SendInquiryPayloadModel):
+    send_inquiry_mail(payload)

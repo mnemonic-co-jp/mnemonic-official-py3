@@ -11,12 +11,13 @@ uvicorn = {extras = ["standard"], version = "*"}
 fastapi = "*"
 google-cloud-ndb = "*"
 requests = "*"
-sendgrid = "*"
 pyyaml = "*"
 pydantic = "*"
 google-cloud-tasks = "*"
 jinja2 = "*"
 python-dateutil = "*"
+brevo-python = "*"
+fastapi-camelcase = "*"
 
 [dev-packages]
 

@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+
+  <body>
+    <p>Mnemonicウェブサイトに以下の問い合わせがありました。</p>
+
+    <p>
+      氏名：{{ name }}<br />
+      電話番号：{{ phone }}<br />
+      メールアドレス：{{ email }}<br />
+    </p>
+
+    <p>
+      内容：<br />
+      {{ body | replace('\n', '<br />') | safe }}
+    </p>
+
+    <p>以上です。</p>
+  </body>
+</html>

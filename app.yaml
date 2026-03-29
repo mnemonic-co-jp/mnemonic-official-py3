@@ -8,8 +8,7 @@ handlers:
 - url: /admin/api/(.+)
   script: auto
   secure: always
-  login: admin
-- url: /api/(.+)
+- url: /(api|task)/(.+)
   script: auto
   secure: always
 - url: /(.+)\.(txt|css|js|png|svg|jpg|gif|eot|ttf|woff)
