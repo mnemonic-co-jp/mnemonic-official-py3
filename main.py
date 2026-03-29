@@ -89,6 +89,9 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     }
     # reCAPTCHA v3 の verify（https://developers.google.com/recaptcha/docs/verify）
     response = session.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
+    if response.status_code != 200:
+        logger.info(response.content)
+        raise HTTPException(status_code=502, detail='Connection to Google reCAPTCHA failed.')
     result = response.json()
     logger.info(result)
     if not result['success'] or result['action'] != 'mnemonic':
@@ -98,7 +101,7 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     payload = inquiry.model_dump(exclude={'token'})
     logger.info(payload)
     if os.getenv('GAE_INSTANCE', '') == '':
-        send_inquiry_mail(SendInquiryPayloadModel(**payload))
+        # send_inquiry_mail(SendInquiryPayloadModel(**payload))
         return
     parent = tasks_client.queue_path(project_name, tasks_location, 'send-inquiry-mail')
     task = {
