@@ -8,6 +8,7 @@ from fastapi import FastAPI, Response, Depends, HTTPException
 from google.cloud import ndb, tasks_v2
 from brevo import Brevo
 from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransacEmailRequestToItem
+from typing import Optional
 from models import Entry
 
 app = FastAPI()
@@ -67,6 +68,14 @@ def get_entry(id: int):
     return result
 
 
+class InquiryRequestModel(pydantic.BaseModel):
+    name: str
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    body: str
+    token: str
+
+
 @app.post('/api/inquiry/', dependencies=[Depends(create_context)])
 def post_inquiry(inquiry: InquiryRequestModel) -> None:
     session = requests.Session()
@@ -101,6 +110,13 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
         }
     }
     tasks_client.create_task(parent=parent, task=task)
+
+
+class SendInquiryPayloadModel(pydantic.BaseModel):
+    name: str
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    body: str
 
 
 def send_inquiry_mail(payload: SendInquiryPayloadModel):
