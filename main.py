@@ -101,7 +101,7 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     payload = inquiry.model_dump(exclude={'token'})
     logger.info(payload)
     if os.getenv('GAE_INSTANCE', '') == '':
-        # send_inquiry_mail(SendInquiryPayloadModel(**payload))
+        send_inquiry_mail(SendInquiryPayloadModel(**payload))
         return
     parent = tasks_client.queue_path(project_name, tasks_location, 'send-inquiry-mail')
     task = {
