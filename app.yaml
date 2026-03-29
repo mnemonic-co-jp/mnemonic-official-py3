@@ -2,7 +2,7 @@
 # version: beta
 
 runtime: python312
-entrypoint: uvicorn main:app --port=${PORT}
+entrypoint: uvicorn main:app --port=${PORT} --no-access-log
 
 handlers:
 - url: /favicon\.ico
