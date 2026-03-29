@@ -11,8 +11,6 @@ from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransa
 from typing import Optional
 from models import Entry
 
-app = FastAPI()
-
 ndb_client = ndb.Client()
 tasks_client = tasks_v2.CloudTasksClient()
 project_name = 'mnemonic-official-py3'
@@ -26,6 +24,8 @@ jinja_environment = jinja2.Environment(
 async def create_context():
     with ndb_client.context():
         yield
+
+app = FastAPI(dependencies=[Depends(create_context)])
 
 with open('secret.yaml') as file:
     SECRET = yaml.safe_load(file.read())
@@ -50,12 +50,12 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
     return [c.to_dict(include=params.include) for c in query]
 
 
-@app.get('/api/entries/', dependencies=[Depends(create_context)])
+@app.get('/api/entries/')
 def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)) -> list[dict]:
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
 
 
-@app.get('/api/entries/{id}', dependencies=[Depends(create_context)])
+@app.get('/api/entries/{id}')
 def get_entry(id: int) -> dict:
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
@@ -76,7 +76,7 @@ class InquiryRequestModel(pydantic.BaseModel):
     token: str
 
 
-@app.post('/api/inquiry/', dependencies=[Depends(create_context)])
+@app.post('/api/inquiry/')
 def post_inquiry(inquiry: InquiryRequestModel) -> None:
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(max_retries=3)
@@ -138,6 +138,6 @@ def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
         raise HTTPException(status_code=response.status_code)
 
 
-@app.post('/task/inquiry/send_mail/', dependencies=[Depends(create_context)])
+@app.post('/task/inquiry/send_mail/')
 def post_send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
     send_inquiry_mail(payload)
