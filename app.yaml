@@ -5,6 +5,9 @@ runtime: python312
 entrypoint: uvicorn main:app --port=${PORT}
 
 handlers:
+- url: /favicon\.ico
+  static_files: dist/favicon.ico
+  upload: favicon\.ico
 - url: /admin/api/(.+)
   script: auto
   secure: always
