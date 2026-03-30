@@ -2,7 +2,7 @@
   <header>
     <h2 class="h1">{{ entry.title }}</h2>
 
-    <p class="mt-4 mb-2"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}</small></p>
+    <p class="text-zinc mt-4 mb-2"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}</small></p>
 
     <p><small><i class="bi bi-tag-fill"></i><span class="text-mnemonic border border-mnemonic rounded ms-2 px-2 py-1" *ngFor="let tag of entry.tags">{{ tag }}</span></small></p>
   </header>

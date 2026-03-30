@@ -20,7 +20,7 @@
         <div class="flex-grow-1 ms-4">
           <h3 class="title h5 mt-0 mb-1 lh-sm"><a class="link-dark link-offset-2" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
 
-          <p class="text-black-50 mb-0"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}<span class="px-3">|</span><i class="bi bi-tag-fill me-2"></i>{{ getJoinedTag(entry) }}</small></p>
+          <p class="text-zinc mb-0"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}<span class="px-3">|</span><i class="bi bi-tag-fill me-2"></i>{{ getJoinedTag(entry) }}</small></p>
         </div>
       </li>
     </ul>
