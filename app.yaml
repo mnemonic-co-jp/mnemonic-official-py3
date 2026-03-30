@@ -8,6 +8,9 @@ handlers:
 - url: /favicon\.ico
   static_files: dist/favicon.ico
   upload: favicon\.ico
+- url: /ads\.txt
+  static_files: dist/ads.txt
+  upload: ads\.txt
 - url: /admin/api/(.+)
   script: auto
   secure: always

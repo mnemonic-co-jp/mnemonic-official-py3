@@ -4,6 +4,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { Title } from "@angular/platform-browser";
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { format } from 'date-fns';
+import { GoogleAdsenseDirective } from '../shared/directives/google-adsense.directive';
 import { ToastService } from '../shared/services/toast.service';
 
 interface ComponentRef {
@@ -19,7 +20,8 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
     CommonModule,
     RouterModule,
     RouterOutlet,
-    NgbToastModule
+    NgbToastModule,
+    GoogleAdsenseDirective
   ],
   templateUrl: './base.component.html',
   styleUrls: ['./base.component.scss']
