@@ -14,7 +14,11 @@ import { Entry } from '../shared/models/entry.model';
   styleUrl: './blog.component.scss',
 })
 export class BlogComponent {
+  readonly name: string = 'blog';
   readonly title: string = 'ブログ記事一覧';
+  readonly description: string = 'ブログ記事一覧のページです。';
+  readonly keywords: string = ',ブログ';
+
   entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
 

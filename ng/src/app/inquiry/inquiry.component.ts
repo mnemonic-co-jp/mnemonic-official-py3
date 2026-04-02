@@ -24,7 +24,11 @@ const EMAIL_REGEXP = new RegExp('^([a-zA-Z0-9])+([a-zA-Z0-9\+\._-])*@([a-zA-Z0-9
   styleUrl: './inquiry.component.scss',
 })
 export class InquiryComponent {
+  readonly name: string = 'inquiry';
   readonly title: string = 'お問い合わせ';
+  readonly description: string = 'お問い合わせページです。';
+  readonly keywords: string = ',問合せ,問い合わせ,お問合せ,お問い合わせ';
+
   inquiryForm: FormGroup;
   errors: Errors = {
     name: '',
