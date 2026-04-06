@@ -1,5 +1,5 @@
 # application: mnemonic-official-py3
-# version: beta
+# version: 1
 
 runtime: python312
 entrypoint: uvicorn main:app --port=${PORT} --no-access-log
