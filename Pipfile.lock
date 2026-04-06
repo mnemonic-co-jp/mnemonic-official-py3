@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "523de9f25783a43d4e122ac065f3ee8a4e5c8ce8dc9137d64d829a80a5f6aaff"
+            "sha256": "fffb56558d14542c4be2507c1ac77b28252d84d1923e4532a6ec830d9dafcb41"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -39,15 +39,6 @@
             ],
             "markers": "python_version >= '3.10'",
             "version": "==4.13.0"
-        },
-        "brevo-python": {
-            "hashes": [
-                "sha256:2102a1cc5ae689e145bcf25447e4ce17a64c413d71813938ebe60e78cc4de75e",
-                "sha256:33ccc80e47526d9326935da2670bdbba17eeffcb1715bbd4fb62c3696ec9eb43"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8' and python_version < '4.0'",
-            "version": "==4.0.9"
         },
         "certifi": {
             "hashes": [
@@ -516,14 +507,6 @@
             "markers": "python_version >= '3.8'",
             "version": "==0.16.0"
         },
-        "httpcore": {
-            "hashes": [
-                "sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55",
-                "sha256:6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8"
-            ],
-            "markers": "python_version >= '3.8'",
-            "version": "==1.0.9"
-        },
         "httptools": {
             "hashes": [
                 "sha256:04c6c0e6c5fb0739c5b8a9eb046d298650a0ff38cf42537fc372b28dc7e4472c",
@@ -571,14 +554,6 @@
                 "sha256:f72fdbae2dbc6e68b8239defb48e6a5937b12218e6ffc2c7846cc37befa84362"
             ],
             "version": "==0.7.1"
-        },
-        "httpx": {
-            "hashes": [
-                "sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc",
-                "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad"
-            ],
-            "markers": "python_version >= '3.8'",
-            "version": "==0.28.1"
         },
         "idna": {
             "hashes": [

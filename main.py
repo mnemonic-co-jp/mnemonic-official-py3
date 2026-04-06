@@ -5,10 +5,11 @@ import json
 import pydantic
 import requests
 import yaml
+import smtplib
+import ssl
+from email.mime.text import MIMEText
 from fastapi import FastAPI, Response, Depends, HTTPException
 from google.cloud import ndb, tasks_v2
-from brevo import Brevo
-from brevo.transactional_emails import SendTransacEmailRequestSender, SendTransacEmailRequestToItem
 from models import Entry
 
 logger = logging.getLogger('uvicorn')
@@ -119,29 +120,23 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
 
 class SendInquiryPayloadModel(pydantic.BaseModel):
     name: str
-    phone: str = None
-    email: str = None
+    phone: str | None = ''
+    email: str | None = ''
     body: str
 
 
 def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
-    brevo_client = Brevo(api_key=SECRET['brevo']['apikey'])
-    response = brevo_client.transactional_emails.with_raw_response.send_transac_email(
-        sender=SendTransacEmailRequestSender(
-            name='Mnemonic Co., Ltd.',
-            email='noreply@mnemonic.co.jp',
-        ),
-        to=[
-            SendTransacEmailRequestToItem(
-                email='somin@mnemonic.co.jp'
-            )
-        ],
-        html_content=jinja_environment.get_template('email/inquiry.html').render(payload),
-        subject=f'【Mnemonic】{payload.name} さんからのお問い合わせ',
-    )
-    if response.status_code != 200:
-        logger.info(response.data)
-        raise HTTPException(status_code=response.status_code)
+    body = jinja_environment.get_template('email/inquiry.txt').render(payload)
+    msg = MIMEText(body, 'plain', 'utf-8')
+    msg['Subject'] = f'【Mnemonic】{payload.name} さんからのお問い合わせ'
+    msg['From'] = 'somin@mnemonic.co.jp'
+    msg['To'] = 'somin@mnemonic.co.jp'
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=ssl.create_default_context()) as server:
+        server.login('somin@mnemonic.co.jp', SECRET['gmail']['app_password'])
+        errors = server.send_message(msg)
+        if isinstance(errors, dict) and len(errors) > 0:
+            logger.info(errors)
+            raise HTTPException(status_code=500, detail='Failed to send inquiry mail.')
 
 
 @app.post('/task/inquiry/send_mail/')
