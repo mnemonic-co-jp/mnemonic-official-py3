@@ -1,5 +1,6 @@
 import logging
 import os
+import redis
 import jinja2
 import json
 import pydantic
@@ -32,24 +33,49 @@ app = FastAPI(dependencies=[Depends(create_context)])
 with open('secret.yaml') as file:
     SECRET = yaml.safe_load(file.read())
 
+redis_client = redis.StrictRedis(**SECRET['redis'], health_check_interval=30, decode_responses=True)
+
 
 class QueryParams:
     def __init__(self, sort: str = None, fields: str = None, limit: int = None, cursor: str = None) -> None:
         self.orders = sort.split(',') if sort else None
         self.include = fields.split(',') if fields else None
         self.limit = limit
-        self.start_cursor = ndb.Cursor(urlsafe=cursor) if cursor else ndb.Cursor()
+        self.start_cursor = ndb.Cursor(urlsafe=cursor) if cursor else None
+
+    def get_keystring(self) -> str:
+        order_string = ','.join(self.orders) if self.orders else ''
+        include_string = ','.join(self.include) if self.include else ''
+        return f'{order_string}:{include_string}:{self.limit}:{self.start_cursor.urlsafe() if self.start_cursor else ''}'
 
 
 def fetched_response(query: ndb.query.Query, params: QueryParams, response: Response) -> list[dict]:
+    redis_key = f'entries:{params.get_keystring()}'
+    resp_json = redis_client.get(redis_key)
+    if resp_json:
+        logger.info(f'"redis": Getting value \'{redis_key}\'')
+        resp = json.loads(resp_json)
+        if resp['cursor']:
+            response.headers['X-Next-Cursor'] = resp['cursor']
+        return resp['data']
     if params.orders:
         query = query.order(*params.orders)
     if params.limit:
         entries, cursor, more = query.fetch_page(params.limit, start_cursor=params.start_cursor)
         if more:
             response.headers['X-Next-Cursor'] = str(cursor.urlsafe(), 'utf8')
-        return [e.to_dict(include=params.include) for e in entries]
-    return [c.to_dict(include=params.include) for c in query]
+        data = [e.to_dict(include=params.include) for e in entries]
+        redis_client.set(redis_key, json.dumps({
+            'data': data,
+            'cursor': cursor.urlsafe()
+        }, default=str))
+        return data
+    data = [e.to_dict(include=params.include) for e in query]
+    redis_client.set(redis_key, json.dumps({
+        'data': data,
+        'cursor': None
+    }, default=str))
+    return data
 
 
 @app.get('/api/entries/')
@@ -59,6 +85,11 @@ def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)
 
 @app.get('/api/entries/{id}')
 def get_entry(id: int) -> dict:
+    redis_key = f'entry:{id}'
+    result_json = redis_client.get(redis_key)
+    if result_json:
+        logger.info(f'"redis": Getting value \'{redis_key}\'')
+        return json.loads(result_json)
     entry = Entry.get_by_id(id)
     if not entry or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
@@ -67,6 +98,7 @@ def get_entry(id: int) -> dict:
     result = entry.to_dict()
     result['previous'] = keys[index - 1].get().to_tiny_dict() if index > 0 else None
     result['next'] = keys[index + 1].get().to_tiny_dict() if index < len(keys) - 1 else None
+    redis_client.set(redis_key, json.dumps(result, default=str))
     return result
 
 
