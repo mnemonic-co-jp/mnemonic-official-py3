@@ -1,5 +1,5 @@
 # mnemonic-official-py3
-2014 年に作った自社サイトを、最新のツールで作り直すプロジェクト（?）。2026 年 4 月に本番化に至る
+2014 年に作った自社サイトを、最新のツールで作り直すプロジェクト。2026 年 4 月にようやっと本番化に至る。
 
 - Google App Engine / Python 3.12 / FastAPI
 - Angular 20
@@ -15,5 +15,5 @@ $ yarn deploy <version>
 ```
 pip で新たにライブラリをインストールしたなら、deploy の前に...
 ```
-$ pipenv lock -r > requirements.txt
+$ pipenv requirements > requirements.txt
 ```
