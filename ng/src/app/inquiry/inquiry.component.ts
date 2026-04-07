@@ -52,7 +52,7 @@ export class InquiryComponent {
   }
 
   submit(): void {
-    this.errors= {
+    this.errors = {
       name: '',
       phone: '',
       email: '',
