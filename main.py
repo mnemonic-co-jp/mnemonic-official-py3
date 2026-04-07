@@ -3,13 +3,14 @@ import os
 import redis
 import jinja2
 import json
-import pydantic
+import datetime
 import requests
 import yaml
 import smtplib
 import ssl
 from email.mime.text import MIMEText
 from fastapi import FastAPI, Response, Depends, HTTPException
+from fastapi_camelcase import CamelModel
 from google.cloud import ndb, tasks_v2
 from models import Entry
 
@@ -78,13 +79,23 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
     return data
 
 
+class EntryModel(CamelModel):
+    id: int
+    title: str = None
+    date: datetime.datetime = None
+    tweet_ids: list[str] = None
+    body: str = None
+    tags: list[str] = None
+    views: int = None
+
+
 @app.get('/api/entries/')
-def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)) -> list[dict]:
+def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)) -> list[EntryModel]:
     return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
 
 
 @app.get('/api/entries/{id}')
-def get_entry(id: int) -> dict:
+def get_entry(id: int) -> EntryModel:
     redis_key = f'entry:{id}'
     result_json = redis_client.get(redis_key)
     if result_json:
@@ -102,16 +113,16 @@ def get_entry(id: int) -> dict:
     return result
 
 
-class InquiryRequestModel(pydantic.BaseModel):
+class InquiryModel(CamelModel):
     name: str
     phone: str | None = ''
     email: str | None = ''
     body: str
-    token: str
+    token: str = None
 
 
 @app.post('/api/inquiry/')
-def post_inquiry(inquiry: InquiryRequestModel) -> None:
+def post_inquiry(inquiry: InquiryModel) -> None:
     session = requests.Session()
     adapter = requests.adapters.HTTPAdapter(max_retries=3)
     session.mount('http://', adapter)
@@ -134,7 +145,7 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     payload = inquiry.model_dump(exclude={'token'})
     logger.info(payload)
     if os.getenv('GAE_INSTANCE', '') == '':
-        send_inquiry_mail(SendInquiryPayloadModel(**payload))
+        send_inquiry_mail(InquiryModel(**payload))
         return
     parent = tasks_client.queue_path(project_name, tasks_location, 'send-inquiry-mail')
     task = {
@@ -150,14 +161,7 @@ def post_inquiry(inquiry: InquiryRequestModel) -> None:
     tasks_client.create_task(parent=parent, task=task)
 
 
-class SendInquiryPayloadModel(pydantic.BaseModel):
-    name: str
-    phone: str | None = ''
-    email: str | None = ''
-    body: str
-
-
-def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
+def send_inquiry_mail(payload: InquiryModel) -> None:
     body = jinja_environment.get_template('email/inquiry.txt').render(payload)
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['Subject'] = f'【Mnemonic】{payload.name} さんからのお問い合わせ'
@@ -172,5 +176,5 @@ def send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
 
 
 @app.post('/task/inquiry/send_mail/')
-def post_send_inquiry_mail(payload: SendInquiryPayloadModel) -> None:
+def post_send_inquiry_mail(payload: InquiryModel) -> None:
     send_inquiry_mail(payload)
