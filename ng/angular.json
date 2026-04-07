@@ -78,7 +78,11 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "index": {
+                "input": "src/index.development.html",
+                "output": "index.html"
+              }
             }
           },
           "defaultConfiguration": "production"
