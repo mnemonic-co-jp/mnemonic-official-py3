@@ -19,7 +19,6 @@ export class AdminBaseComponent {
 
   constructor(private authService: GoogleAuthService) {
     this.authService.getProfile().then((profile: Profile) => {
-      console.log(profile);
       if (profile) {
         this.profile = profile;
       } else {

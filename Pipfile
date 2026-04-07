@@ -17,6 +17,7 @@ google-cloud-tasks = "*"
 jinja2 = "*"
 python-dateutil = "*"
 fastapi-camelcase = "*"
+google-auth = "*"
 
 [dev-packages]
 

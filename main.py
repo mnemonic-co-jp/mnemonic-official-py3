@@ -13,6 +13,7 @@ from fastapi import FastAPI, Response, Depends, HTTPException
 from fastapi_camelcase import CamelModel
 from google.cloud import ndb, tasks_v2
 from models import Entry
+from admin import router as admin_router
 
 logger = logging.getLogger('uvicorn')
 ndb_client = ndb.Client()
@@ -30,6 +31,7 @@ async def create_context():
         yield
 
 app = FastAPI(dependencies=[Depends(create_context)])
+app.include_router(admin_router)
 
 with open('secret.yaml') as file:
     SECRET = yaml.safe_load(file.read())
