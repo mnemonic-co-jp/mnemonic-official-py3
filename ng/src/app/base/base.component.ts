@@ -5,7 +5,6 @@ import { Title, Meta } from '@angular/platform-browser';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { format } from 'date-fns';
 import { ToastService } from '../shared/services/toast.service';
-import { environment } from '../../environments/environment';
 
 interface ComponentRef {
   name?: string;
@@ -29,7 +28,6 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
 })
 export class BaseComponent implements AfterViewInit {
   isHome: boolean = true;
-  isProduction: boolean = environment.production;
   currentYear: string = format(new Date(), 'yyyy');
 
   constructor(
@@ -42,9 +40,6 @@ export class BaseComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
-    if (!this.isProduction) {
-      return;
-    }
     const hostElement = this.document.getElementById('google-adsense');
     if (!hostElement) {
       return;
