@@ -5,7 +5,6 @@
 - Angular 20
 
 ```
-$ pipenv shell
 $ yarn start
 ```
 デプロイ時は Angular をビルドしてから。
