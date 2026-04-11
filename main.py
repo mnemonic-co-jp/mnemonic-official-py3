@@ -49,7 +49,7 @@ class QueryParams:
     def get_keystring(self) -> str:
         order_string = ','.join(self.orders) if self.orders else ''
         include_string = ','.join(self.include) if self.include else ''
-        return f'{order_string}:{include_string}:{self.limit}:{self.start_cursor.urlsafe() if self.start_cursor else ''}'
+        return f'{order_string}:{include_string}:{self.limit}:{str(self.start_cursor.urlsafe(), 'utf8') if self.start_cursor else ''}'
 
 
 def fetched_response(query: ndb.query.Query, params: QueryParams, response: Response) -> list[dict]:
@@ -70,7 +70,7 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
         data = [e.to_dict(include=params.include) for e in entries]
         redis_client.set(redis_key, json.dumps({
             'data': data,
-            'cursor': cursor.urlsafe()
+            'cursor': str(cursor.urlsafe(), 'utf8')
         }, default=str))
         return data
     data = [e.to_dict(include=params.include) for e in query]
