@@ -70,7 +70,7 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
         data = [e.to_dict(include=params.include) for e in entries]
         redis_client.set(redis_key, json.dumps({
             'data': data,
-            'cursor': str(cursor.urlsafe(), 'utf8')
+            'cursor': str(cursor.urlsafe(), 'utf8') if more else None
         }, default=str))
         return data
     data = [e.to_dict(include=params.include) for e in query]

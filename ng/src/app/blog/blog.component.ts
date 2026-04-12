@@ -1,8 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
+
+interface EntryRequestParams {
+  sort: string;
+  fields: string;
+  limit: number;
+  cursor?: string;
+}
+
+const PER_PAGE = 20;
 
 @Component({
   standalone: true,
@@ -21,6 +31,8 @@ export class BlogComponent {
 
   entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
+  page: number = 1;
+  cursors: (string | null)[] = [null];
 
   constructor(private entriesService: EntriesService) {
     this.fetchEntries();
@@ -28,13 +40,25 @@ export class BlogComponent {
 
   fetchEntries(): void {
     this.entriesAreLoading = true;
-    this.entriesService.fetch({
+    const params: EntryRequestParams = {
       sort: '-date',
-      fields: 'title,date,tags'
-    }).subscribe({
-      next: (entries: Entry[]) => {
-        this.entries = entries;
+      fields: 'title,date,tags',
+      limit: PER_PAGE
+    };
+    const cursor = this.cursors[this.page - 1];
+    if (cursor) {
+      params.cursor = cursor;
+    }
+    this.entriesService.fetch(params).subscribe({
+      next: (response: HttpResponse<Entry[]>) => {
+        this.entries = response.body as Entry[];
         this.entriesAreLoading = false;
+        const nextCursor = response.headers.get('X-Next-Cursor');
+        if (nextCursor) {
+          if (!this.cursors[this.page - 2]) {
+            this.cursors.push(nextCursor);
+          }
+        }
       },
       error: () => this.entriesAreLoading = false
     });
@@ -42,5 +66,10 @@ export class BlogComponent {
 
   getJoinedTag(entry: Entry): string {
     return entry.tags.join(', ');
+  }
+
+  jumpTo(direction: number): void {
+    this.page += direction;
+    this.fetchEntries();
   }
 }

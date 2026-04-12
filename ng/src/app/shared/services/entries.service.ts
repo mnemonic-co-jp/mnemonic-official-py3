@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Entry } from '../models/entry.model';
 
@@ -11,11 +11,10 @@ export class EntriesService {
 
   constructor(private http: HttpClient) {}
 
-  fetch(params: any): Observable<Entry[]> {
+  fetch(params: any): Observable<HttpResponse<Entry[]>> {
     return this.http.get<Entry[]>(this.url, {
-      params: new HttpParams({
-        fromObject: params
-      })
+      params: new HttpParams({ fromObject: params }),
+      observe: 'response'
     });
   }
 

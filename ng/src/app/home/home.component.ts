@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
@@ -34,8 +35,8 @@ export class HomeComponent {
       fields: 'title,date',
       limit: NUM_OF_ENTRIES
     }).subscribe({
-      next: (entries: Entry[]) => {
-        this.entries = entries;
+      next: (response: HttpResponse<Entry[]>) => {
+        this.entries = response.body as Entry[];
         this.entriesAreLoading = false;
       },
       error: () => this.entriesAreLoading = false
