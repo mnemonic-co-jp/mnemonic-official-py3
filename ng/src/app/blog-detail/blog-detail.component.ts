@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -23,15 +23,13 @@ export class BlogDetailComponent {
   readonly title: string = 'ブログ記事';
   readonly description: string = 'ブログ記事のページです。';
   readonly keywords: string = ',ブログ';
-
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private meta = inject(Meta);
+  private entriesService = inject(EntriesService);
   entry: Entry | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private meta: Meta,
-    private entriesService: EntriesService
-  ) {
+  constructor() {
     this.route.params.subscribe((params: Params) => {
       const entryId: number = +params['id'];
       this.getRecentEntry(entryId);

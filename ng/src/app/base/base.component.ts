@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -28,14 +28,13 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
 })
 export class BaseComponent implements AfterViewInit {
   isHome: boolean = true;
+  private document = inject(DOCUMENT);
+  private titleService = inject(Title);
+  private meta = inject(Meta);
+  public toastService = inject(ToastService);
   currentYear: string = format(new Date(), 'yyyy');
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private titleService: Title,
-    private meta: Meta,
-    public toastService: ToastService
-  ) {
+  constructor() {
     this.titleService.setTitle(BASE_TITLE);
   };
 

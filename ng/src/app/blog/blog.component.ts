@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -28,13 +28,13 @@ export class BlogComponent {
   readonly title: string = 'ブログ記事一覧';
   readonly description: string = 'ブログ記事一覧のページです。';
   readonly keywords: string = ',ブログ';
-
+  private entriesService = inject(EntriesService);
   entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
   page: number = 1;
   cursors: (string | null)[] = [null];
 
-  constructor(private entriesService: EntriesService) {
+  constructor() {
     this.fetchEntries();
   }
 

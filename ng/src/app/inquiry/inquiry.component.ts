@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -28,27 +28,21 @@ export class InquiryComponent {
   readonly title: string = 'お問い合わせ';
   readonly description: string = 'お問い合わせページです。';
   readonly keywords: string = ',問合せ,問い合わせ,お問合せ,お問い合わせ';
-
-  inquiryForm: FormGroup;
+  private formBuilder = inject(FormBuilder);
+  private http = inject(HttpClient);
+  private recaptchaV3Service = inject(ReCaptchaV3Service);
+  private toastService = inject(ToastService);
+  inquiryForm: FormGroup = this.formBuilder.group({
+    name: [''],
+    phone: [''],
+    email: [''],
+    body: ['']
+  });
   errors: Errors = {
     name: '',
     phone: '',
     email: '',
     body: ''
-  }
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private recaptchaV3Service: ReCaptchaV3Service,
-    private toastService: ToastService
-  ) {
-    this.inquiryForm = this.formBuilder.group({
-      name: [''],
-      phone: [''],
-      email: [''],
-      body: ['']
-    });
   }
 
   submit(): void {

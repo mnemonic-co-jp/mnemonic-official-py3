@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Entry } from '../models/entry.model';
@@ -8,8 +8,7 @@ import { Entry } from '../models/entry.model';
 })
 export class EntriesService {
   readonly url: string = '/api/entries/';
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   fetch(params: any): Observable<HttpResponse<Entry[]>> {
     return this.http.get<Entry[]>(this.url, {

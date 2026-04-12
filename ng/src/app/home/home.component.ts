@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -19,11 +19,11 @@ const NUM_OF_ENTRIES = 5;
 export class HomeComponent {
   readonly name: string = 'home';
   readonly title: string = '';
-  
+  private entriesService = inject(EntriesService);
   entries: Entry[] | null = null;
   entriesAreLoading: boolean = false;
 
-  constructor(private entriesService: EntriesService) {
+  constructor() {
     this.fetchRecentEntries();
   }
 

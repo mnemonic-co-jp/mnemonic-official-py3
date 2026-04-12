@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OAuthService, OAuthErrorEvent } from 'angular-oauth2-oidc';
 
 const WHITELIST = ['somin1968@gmail.com'];
@@ -10,10 +10,9 @@ type Profile = Record<string, any> | null;
 })
 export class GoogleAuthService {
   profile: Profile = null;
+  private oAuthService = inject(OAuthService);
 
-  constructor(
-    private oAuthService: OAuthService
-  ) {
+  constructor() {
     this.oAuthService.configure({
       issuer: 'https://accounts.google.com',
       clientId: '269403970246-e82jf5rgdtacac3i65f02562g8hun073.apps.googleusercontent.com',
