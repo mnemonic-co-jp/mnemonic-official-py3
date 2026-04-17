@@ -88,7 +88,6 @@ class EntryModel(CamelModel):
     tweet_ids: list[str] = None
     body: str = None
     tags: list[str] = None
-    views: int = None
 
 
 @app.get('/api/entries/')

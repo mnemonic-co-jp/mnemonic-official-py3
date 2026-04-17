@@ -21,7 +21,6 @@ class Entry(BaseModel):
     tweet_ids = ndb.StringProperty(repeated=True)
     body = ndb.TextProperty()
     tags = ndb.StringProperty(repeated=True)
-    views = ndb.IntegerProperty(default=0)
     is_published = ndb.BooleanProperty(default=True)
     is_deleted = ndb.BooleanProperty(default=False)
 
