@@ -1,24 +1,29 @@
 <div class="d-flex flex-column h-100">
-  <p class="fw-semibold mt-4 mb-0">勉強させていただきます。</p>
+  <p class="fw-semibold mt-4 mb-4">勉強させていただきます。</p>
 
-  <dl class="mt-5">
-    <dt class="fw-semibold mb-2">2026年3月某日</dt>
-    <dd>
-      <div>サイトをリューアルしました（見た目的にはマイナーチェンジに過ぎませんが）。</div>
-  
-      <ul class="mt-3">
-        <li>Google App Engine / Python のバージョンを 2.7 から 3.12 へ</li>
-        <li>フレームワークを WebApp2 から FastAPI に置き換え</li>
-        <li>フロント側も Angular 20 + Bootstrap 5 で大幅書き換え</li>
-      </ul>
+  <div class="scrollable">
+    <dl class="mt-3">
+      <dt class="fw-semibold mb-2">2026年4月18日</dt>
+      <dd>Anglar のバージョンを 21 に（結構いろいろ変更）。</dd>
 
-      <div>とはいえ、まだ完成していませんので、おかしな部分もあるかと思います。</div>
+      <dt class="fw-semibold mt-4 mb-2">2026年3月某日</dt>
+      <dd>
+        <div>サイトをリューアルしました（見た目的にはマイナーチェンジに過ぎませんが）。</div>
+    
+        <ul class="mt-3">
+          <li>Google App Engine / Python のバージョンを 2.7 から 3.12 へ</li>
+          <li>フレームワークを WebApp2 から FastAPI に置き換え</li>
+          <li>フロント側も Angular 20 + Bootstrap 5 で大幅書き換え</li>
+        </ul>
 
-      <div class="mt-3">あ、レスポンシブ対応はまだです。</div>
-    </dd>
-  </dl>
+        <div>とはいえ、まだ完成していませんので、おかしな部分もあるかと思います。</div>
 
-  <section class="mt-auto">
+        <div class="mt-3">あ、レスポンシブ対応はまだです。</div>
+      </dd>
+    </dl>
+  </div>
+
+  <section class="mt-auto pt-3">
     <div class="entries border px-4 py-3">
       <h2 class="h6 mb-3">直近（?）のブログ記事</h2>
     @if (entriesAreLoading()) {
