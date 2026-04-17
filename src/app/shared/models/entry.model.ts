@@ -5,15 +5,14 @@ export interface Entry {
   tweetIds: string[];
   body: string;
   tags: string[];
-  views: number[];
-  previous: {
+  previous?: {
     id: number;
     title: string;
-  } | null;
-  next: {
+  };
+  next?: {
     id: number;
     title: string;
-  } | null;
-  isPublished: boolean;
-  isDeleted: boolean;
+  };
+  isPublished?: boolean;
+  isDeleted?: boolean;
 }

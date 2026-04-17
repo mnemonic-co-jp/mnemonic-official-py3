@@ -81,13 +81,20 @@ def fetched_response(query: ndb.query.Query, params: QueryParams, response: Resp
     return data
 
 
+class TinyEntryModel(CamelModel):
+    id: int
+    title: str
+
+
 class EntryModel(CamelModel):
     id: int
-    title: str = None
-    date: datetime.datetime = None
+    title: str
+    date: datetime.datetime
     tweet_ids: list[str] = None
     body: str = None
     tags: list[str] = None
+    previous: TinyEntryModel | None = None
+    next: TinyEntryModel | None = None
 
 
 @app.get('/api/entries/')
