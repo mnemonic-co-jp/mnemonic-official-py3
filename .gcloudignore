@@ -20,6 +20,9 @@ yarn.lock
 yarn-error.log
 
 node_modules
-ng
+public
+src
+angular.json
+tsconfig.*
 
 mnemonic-official-py3-54787c046834.json

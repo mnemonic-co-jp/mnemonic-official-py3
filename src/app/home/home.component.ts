@@ -36,6 +36,7 @@ export class HomeComponent {
       limit: NUM_OF_ENTRIES
     }).subscribe({
       next: (response: HttpResponse<Entry[]>) => {
+        console.log(response);
         this.entries = response.body as Entry[];
         this.entriesAreLoading = false;
       },
