@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Toast } from '../models/toast.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastService {
-  toasts: Toast[] = [];
+  private toastItems = signal<Toast[]>([]);
+
+  readonly toasts = computed(() => this.toastItems())
 
   show(options: Toast): void {
-    this.toasts.push({...options});
+    this.toastItems.update(value => [...value, {...options}]);
   }
 
   remove(toast: Toast) {
-    this.toasts = this.toasts.filter((t: Toast) => t !== toast);
+    this.toastItems.update(value => this.toastItems().filter((t: Toast) => t !== toast));
   }
 }

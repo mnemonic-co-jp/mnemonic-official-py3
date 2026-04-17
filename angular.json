@@ -48,11 +48,10 @@
             ],
             "stylePreprocessorOptions": {
               "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
+                "silenceDeprecations": ["import"]
               }
-            }
+            },
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {

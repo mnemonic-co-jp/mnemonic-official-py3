@@ -31,7 +31,7 @@ export class BaseComponent implements AfterViewInit {
   private document = inject(DOCUMENT);
   private titleService = inject(Title);
   private meta = inject(Meta);
-  public toastService = inject(ToastService);
+  toastService = inject(ToastService);
   currentYear: string = format(new Date(), 'yyyy');
 
   constructor() {
