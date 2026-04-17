@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { form, FormField, required, email, validateTree, RootFieldContext } from '@angular/forms/signals';
+import { form, FormField, required, email, validateTree, RootFieldContext, SchemaPathTree } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
 import { RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha';
 import { ToastService } from '../shared/services/toast.service';
@@ -38,26 +38,18 @@ export class InquiryComponent {
   });
   inquiryForm = form(this.inquiryModel, schemaPath => {
     required(schemaPath.name, { message: 'この項目は必須です。' });
-    validateTree(schemaPath, ctx => {
+    const requirePhoneOrEmail = (ctx: RootFieldContext<Inquiry>, name: keyof Inquiry) => {
       if (!ctx.valueOf(schemaPath.phone) && !ctx.valueOf(schemaPath.email)) {
         return {
           kind: 'requirePhoneOrEmail',
           message: 'お電話番号とメールアドレスのどちらかはご入力ください。',
-          fieldTree: ctx.fieldTree.phone
+          fieldTree: ctx.fieldTree[name]
         }
       }
       return null;
-    });
-    validateTree(schemaPath, ctx => {
-      if (!ctx.valueOf(schemaPath.phone) && !ctx.valueOf(schemaPath.email)) {
-        return {
-          kind: 'requirePhoneOrEmail',
-          message: 'お電話番号とメールアドレスのどちらかはご入力ください。',
-          fieldTree: ctx.fieldTree.email
-        }
-      }
-      return null;
-    });
+    };
+    validateTree(schemaPath, ctx => requirePhoneOrEmail(ctx, 'phone'));
+    validateTree(schemaPath, ctx => requirePhoneOrEmail(ctx, 'email'));
     email(schemaPath.email, { message: '不正なメールアドレスです。' });
     required(schemaPath.body, { message: 'この項目は必須です。' });
   });
