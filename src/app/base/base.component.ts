@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, inject, signal, WritableSignal } from '@angular/core';
+import { Component, AfterViewInit, inject, signal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
   styleUrls: ['./base.component.scss']
 })
 export class BaseComponent implements AfterViewInit {
-  isHome: WritableSignal<boolean> = signal(true);
+  isHome = signal<boolean>(true);
   private document = inject(DOCUMENT);
   private titleService = inject(Title);
   private meta = inject(Meta);

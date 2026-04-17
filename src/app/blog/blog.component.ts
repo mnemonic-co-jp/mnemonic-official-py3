@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -29,10 +29,10 @@ export class BlogComponent {
   readonly description: string = 'ブログ記事一覧のページです。';
   readonly keywords: string = ',ブログ';
   private entriesService = inject(EntriesService);
-  entries: WritableSignal<Entry[]> = signal([]);
-  entriesAreLoading: WritableSignal<boolean> = signal(false);
-  page: WritableSignal<number> = signal(1);
-  cursors: WritableSignal<(string | null)[]> = signal([null]);
+  entries = signal<Entry[]>([]);
+  entriesAreLoading = signal<boolean>(false);
+  page = signal<number>(1);
+  cursors = signal<(string | null)[]>([null]);
 
   constructor() {
     this.fetchEntries();

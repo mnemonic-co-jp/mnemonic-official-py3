@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -20,8 +20,8 @@ export class HomeComponent {
   readonly name: string = 'home';
   readonly title: string = '';
   private entriesService = inject(EntriesService);
-  entries: WritableSignal<Entry[]> = signal<Entry[]>([]);
-  entriesAreLoading: WritableSignal<boolean> = signal(false);
+  entries = signal<Entry[]>([]);
+  entriesAreLoading = signal<boolean>(false);
 
   constructor() {
     this.fetchRecentEntries();

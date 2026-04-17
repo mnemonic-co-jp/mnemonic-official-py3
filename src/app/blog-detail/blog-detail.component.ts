@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -27,7 +27,7 @@ export class BlogDetailComponent {
   private titleService = inject(Title);
   private meta = inject(Meta);
   private entriesService = inject(EntriesService);
-  entry: WritableSignal<Entry | null> = signal(null);
+  entry = signal<Entry | null>(null);
 
   constructor() {
     this.route.params.subscribe((params: Params) => {
