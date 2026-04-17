@@ -6,10 +6,10 @@ entrypoint: uvicorn main:app --port=${PORT} --no-access-log
 
 handlers:
 - url: /favicon\.ico
-  static_files: dist/favicon.ico
+  static_files: dist/mnemonic-official-py3/browser/favicon.ico
   upload: favicon\.ico
 - url: /ads\.txt
-  static_files: dist/ads.txt
+  static_files: dist/mnemonic-official-py3/browser/ads.txt
   upload: ads\.txt
 - url: /admin/api/(.+)
   script: auto
@@ -18,12 +18,12 @@ handlers:
   script: auto
   secure: always
 - url: /(.+)\.(txt|css|js|png|svg|jpg|gif|eot|ttf|woff)
-  static_files: dist/\1.\2
-  upload: dist/(.+)
+  static_files: dist/mnemonic-official-py3/browser/\1.\2
+  upload: (.+)
   secure: always
 - url: /(.+)?
-  static_files: dist/index.html
-  upload: dist/index\.html
+  static_files: dist/mnemonic-official-py3/browser/index.html
+  upload: index\.html
   secure: always
   http_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains
