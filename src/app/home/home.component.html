@@ -21,19 +21,18 @@
   <section class="mt-auto">
     <div class="entries border px-4 py-3">
       <h2 class="h6 mb-3">直近（?）のブログ記事</h2>
-
-      <p *ngIf="entriesAreLoading"><small>読み込み中です...</small></p>
-
-      <div *ngIf="!entriesAreLoading">
-        <dl *ngIf="entries && entries.length > 0" class="d-flex flex-wrap mb-0 w-100">
-          <ng-container *ngFor="let entry of entries">
-            <dt>{{ entry.date | date:'yyyy年M月d日' }}</dt>
-            <dd class="mb-2"><a class="link-dark link-offset-1" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
-          </ng-container>
-        </dl>
-
-        <p *ngIf="entries && entries.length === 0">記事はまだありません。</p>
-      </div>
+    @if (entriesAreLoading()) {
+      <p><small>読み込み中です...</small></p>
+    } @else {
+      <dl class="d-flex flex-wrap mb-0 w-100">
+      @for (entry of entries(); track entry.id) {
+        <dt>{{ entry.date | date:'yyyy年M月d日' }}</dt>
+        <dd class="mb-2"><a class="link-dark link-offset-1" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></dd>
+      } @empty {
+        <p><small>記事はまだありません。</small></p>
+      }
+      </dl>
+    }
     </div>
   </section>
 </div>

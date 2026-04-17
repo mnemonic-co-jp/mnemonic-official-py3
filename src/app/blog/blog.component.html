@@ -7,29 +7,35 @@
 <section>
   <h1 class="h5 mb-4">ブログ記事一覧</h1>
 
-  <p *ngIf="entriesAreLoading"><small>読み込み中です...</small></p>
+@if (entriesAreLoading()) {
+  <p><small>読み込み中です...</small></p>
+} @else {
+  <ul class="list-unstyled">
+  @for (entry of entries(); track entry.id) {
+    <li class="d-flex align-items-center mb-3">
+      <dl class="calendar flex-shrink-0 mb-0">
+        <dt class="text-white text-center bg-mnemonic py-1">{{ entry.date | date:'MMM' }}</dt>
+        <dd class="h3 text-center border border-secondary mb-0">{{ entry.date | date:'dd' }}</dd>
+      </dl>
 
-  <div *ngIf="!entriesAreLoading">
-    <ul *ngIf="entries && entries.length > 0" class="list-unstyled">
-      <li class="d-flex align-items-center mb-3" *ngFor="let entry of entries">
-        <dl class="calendar flex-shrink-0 mb-0">
-          <dt class="text-white text-center bg-mnemonic py-1">{{ entry.date | date:'MMM' }}</dt>
-          <dd class="h3 text-center border border-secondary mb-0">{{ entry.date | date:'dd' }}</dd>
-        </dl>
+      <div class="flex-grow-1 ms-4">
+        <h3 class="title h5 mt-0 mb-1 lh-sm"><a class="link-dark link-offset-2" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
 
-        <div class="flex-grow-1 ms-4">
-          <h3 class="title h5 mt-0 mb-1 lh-sm"><a class="link-dark link-offset-2" [routerLink]="['/blog', entry.id]">{{ entry.title }}</a></h3>
+        <p class="text-zinc mb-0"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}<span class="px-3">|</span><i class="bi bi-tag-fill me-2"></i>{{ getJoinedTag(entry) }}</small></p>
+      </div>
+    </li>
+  } @empty {
+    <p><small>記事はまだありません。</small></p>
+  }
+  </ul>
 
-          <p class="text-zinc mb-0"><small><i class="bi bi-clock me-2"></i>{{ entry.date | date:'yyyy年M月d日 HH時mm分' }}<span class="px-3">|</span><i class="bi bi-tag-fill me-2"></i>{{ getJoinedTag(entry) }}</small></p>
-        </div>
-      </li>
-    </ul>
-
-    <p *ngIf="entries && entries.length === 0">記事はまだありません。</p>
-
-    <ul class="list-unstyled d-flex flex-wrap mt-5">
-      <li *ngIf="page > 1" (click)="jumpTo(-1)"><button class="btn btn-sm btn-link p-0"><i class="bi bi-chevron-double-left me-2"></i>前のページ</button></li>
-      <li *ngIf="cursors.length >= page + 1" class="text-end ms-auto" (click)="jumpTo(1)"><button class="btn btn-sm btn-link p-0">次のページ<i class="bi bi-chevron-double-right ms-2"></i></button></li>
-    </ul>
-  </div>
+  <ul class="list-unstyled d-flex flex-wrap mt-5">
+  @if (page() > 1) {
+    <li (click)="jumpTo(-1)"><button class="btn btn-sm btn-link p-0"><i class="bi bi-chevron-double-left me-2"></i>前のページ</button></li>
+  }
+  @if (cursors().length >= page() + 1) {
+    <li class="text-end ms-auto" (click)="jumpTo(1)"><button class="btn btn-sm btn-link p-0">次のページ<i class="bi bi-chevron-double-right ms-2"></i></button></li>
+  }
+  </ul>
+}
 </section>

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, inject } from '@angular/core';
+import { Component, AfterViewInit, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
   styleUrls: ['./base.component.scss']
 })
 export class BaseComponent implements AfterViewInit {
-  isHome: boolean = true;
+  isHome: WritableSignal<boolean> = signal(true);
   private document = inject(DOCUMENT);
   private titleService = inject(Title);
   private meta = inject(Meta);
@@ -55,7 +55,7 @@ export class BaseComponent implements AfterViewInit {
 
   onActivate(componentRef: ComponentRef) {
     // NOTE: 変更タイミングをずらさないと NG0100 のエラーになる
-    setTimeout(() => this.isHome = componentRef?.name === 'home');
+    setTimeout(() => this.isHome.set(componentRef?.name === 'home'));
     const title = componentRef?.title;
     this.titleService.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
     this.meta.removeTag('description');

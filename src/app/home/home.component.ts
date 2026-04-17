@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -20,15 +20,15 @@ export class HomeComponent {
   readonly name: string = 'home';
   readonly title: string = '';
   private entriesService = inject(EntriesService);
-  entries: Entry[] | null = null;
-  entriesAreLoading: boolean = false;
+  entries: WritableSignal<Entry[]> = signal<Entry[]>([]);
+  entriesAreLoading: WritableSignal<boolean> = signal(false);
 
   constructor() {
     this.fetchRecentEntries();
   }
 
   fetchRecentEntries(): void {
-    this.entriesAreLoading = true;
+    this.entriesAreLoading.set(true);
     // ブログ記事の最新 n 件を取得
     this.entriesService.fetch({
       sort: '-date',
@@ -36,11 +36,10 @@ export class HomeComponent {
       limit: NUM_OF_ENTRIES
     }).subscribe({
       next: (response: HttpResponse<Entry[]>) => {
-        console.log(response);
-        this.entries = response.body as Entry[];
-        this.entriesAreLoading = false;
+        this.entries.set(response.body as Entry[]);
+        this.entriesAreLoading.set(false);
       },
-      error: () => this.entriesAreLoading = false
+      error: () => this.entriesAreLoading.set(false)
     });
   }
 }

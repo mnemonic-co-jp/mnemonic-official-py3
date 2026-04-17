@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -29,38 +29,38 @@ export class BlogComponent {
   readonly description: string = 'ブログ記事一覧のページです。';
   readonly keywords: string = ',ブログ';
   private entriesService = inject(EntriesService);
-  entries: Entry[] | null = null;
-  entriesAreLoading: boolean = false;
-  page: number = 1;
-  cursors: (string | null)[] = [null];
+  entries: WritableSignal<Entry[]> = signal([]);
+  entriesAreLoading: WritableSignal<boolean> = signal(false);
+  page: WritableSignal<number> = signal(1);
+  cursors: WritableSignal<(string | null)[]> = signal([null]);
 
   constructor() {
     this.fetchEntries();
   }
 
   fetchEntries(): void {
-    this.entriesAreLoading = true;
+    this.entriesAreLoading.set(true);
     const params: EntryRequestParams = {
       sort: '-date',
       fields: 'title,date,tags',
       limit: PER_PAGE
     };
-    const cursor = this.cursors[this.page - 1];
+    const cursor = this.cursors()[this.page() - 1];
     if (cursor) {
       params.cursor = cursor;
     }
     this.entriesService.fetch(params).subscribe({
       next: (response: HttpResponse<Entry[]>) => {
-        this.entries = response.body as Entry[];
-        this.entriesAreLoading = false;
+        this.entries.set(response.body as Entry[]);
+        this.entriesAreLoading.set(false);
         const nextCursor = response.headers.get('X-Next-Cursor');
         if (nextCursor) {
-          if (!this.cursors[this.page - 2]) {
-            this.cursors.push(nextCursor);
+          if (!this.cursors()[this.page() - 2]) {
+            this.cursors.update(value => [...value, nextCursor]);
           }
         }
       },
-      error: () => this.entriesAreLoading = false
+      error: () => this.entriesAreLoading.set(false)
     });
   }
 
@@ -69,7 +69,7 @@ export class BlogComponent {
   }
 
   jumpTo(direction: number): void {
-    this.page += direction;
+    this.page.update(value => value + direction);
     this.fetchEntries();
   }
 }

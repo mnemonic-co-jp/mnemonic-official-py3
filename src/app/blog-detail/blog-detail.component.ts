@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -27,7 +27,7 @@ export class BlogDetailComponent {
   private titleService = inject(Title);
   private meta = inject(Meta);
   private entriesService = inject(EntriesService);
-  entry: Entry | null = null;
+  entry: WritableSignal<Entry | null> = signal(null);
 
   constructor() {
     this.route.params.subscribe((params: Params) => {
@@ -38,7 +38,7 @@ export class BlogDetailComponent {
 
   getRecentEntry(entryId: number) {
     this.entriesService.get(entryId).subscribe((entry: Entry) => {
-      this.entry = entry;
+      this.entry.set(entry);
       // ページタイトルに記事名を付与する
       this.titleService.setTitle(`ブログ記事: ${entry.title} | ${this.titleService.getTitle()}`);
       // description を変更
