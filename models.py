@@ -12,12 +12,6 @@ class BaseModel(ndb.Model):
     def to_dict(self, include=None, exclude=None):
         result = super(BaseModel, self).to_dict(include=include, exclude=exclude)
         result['id'] = self.key.id()
-        # keys = result.copy().keys()
-        # for key in keys:
-        #     value = result[key]
-        #     del result[key]
-        #     camel_key = re.sub('_(.)', lambda x: x.group(1).upper(), key)
-        #     result[camel_key] = value
         return result
 
 
