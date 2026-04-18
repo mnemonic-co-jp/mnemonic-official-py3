@@ -15,12 +15,12 @@ type Profile = Record<string, any> | null;
   styleUrl: './base.component.scss'
 })
 export class AdminBaseComponent {
-  profile: Profile = null;
+  profile = signal<Profile>(null);
 
   constructor(private authService: GoogleAuthService) {
     this.authService.getProfile().then((profile: Profile) => {
       if (profile) {
-        this.profile = profile;
+        this.profile.set(profile);
       } else {
         this.authService.login();
       }
@@ -29,7 +29,7 @@ export class AdminBaseComponent {
 
   logout() {
     this.authService.logout();
-    this.profile = null;
+    this.profile.set(null);
     window.location.href = '/admin';
   }
 }
