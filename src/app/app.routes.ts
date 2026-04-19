@@ -7,6 +7,7 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { InquiryComponent } from './inquiry/inquiry.component';
 import { AdminBaseComponent } from './admin/base/base.component';
 import { AdminHomeComponent } from './admin/home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', component: BaseComponent, children: [
@@ -14,7 +15,8 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'blog/:id', component: BlogDetailComponent },
-    { path: 'inquiry', component: InquiryComponent }
+    { path: 'inquiry', component: InquiryComponent },
+    { path: '**', component: NotFoundComponent}
   ]},
   { path: 'admin', component: AdminBaseComponent, children: [
     { path: '', component: AdminHomeComponent }

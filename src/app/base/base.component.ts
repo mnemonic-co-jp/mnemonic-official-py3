@@ -27,7 +27,8 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
   styleUrls: ['./base.component.scss']
 })
 export class BaseComponent implements AfterViewInit {
-  isHome = signal<boolean>(true);
+  isHome = signal<boolean>(false);
+  is404 = signal<boolean>(false);
   private document = inject(DOCUMENT);
   private titleService = inject(Title);
   private meta = inject(Meta);
@@ -55,7 +56,10 @@ export class BaseComponent implements AfterViewInit {
 
   onActivate(componentRef: ComponentRef) {
     // NOTE: 変更タイミングをずらさないと NG0100 のエラーになる
-    setTimeout(() => this.isHome.set(componentRef?.name === 'home'));
+    setTimeout(() => {
+      this.isHome.set(componentRef?.name === 'home');
+      this.is404.set(componentRef?.name === 'not-found');
+    });
     const title = componentRef?.title;
     this.titleService.setTitle(title ? `${title} | ${BASE_TITLE}` : BASE_TITLE);
     this.meta.removeTag('description');

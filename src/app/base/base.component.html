@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="contentBody" [ngClass]="{ isHome: isHome() }">
+<div class="contentBody" [ngClass]="{ isHome: isHome(), notFound: is404() }">
   <header>
     <div class="container mx-auto">
       <h1 class="headding text-zinc m-0">株式会社ニーモニック</h1>
