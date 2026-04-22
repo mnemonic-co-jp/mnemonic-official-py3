@@ -15,10 +15,12 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'blog', component: BlogComponent },
     { path: 'blog/:id', component: BlogDetailComponent },
-    { path: 'inquiry', component: InquiryComponent },
-    { path: '**', component: NotFoundComponent}
+    { path: 'inquiry', component: InquiryComponent }
   ]},
   { path: 'admin', component: AdminBaseComponent, children: [
     { path: '', component: AdminHomeComponent }
+  ]},
+  { path: '**', component: BaseComponent, children: [
+    { path: '**', component: NotFoundComponent }
   ]}
 ];
