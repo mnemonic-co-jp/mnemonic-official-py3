@@ -7,7 +7,7 @@
 <section>
   <form style="max-width: 800px;" (submit)="submit($event)" novalidate>
     <div class="row mb-2">
-      <label class="col-sm-2 col-form-label fw-semibold">お名前</label>
+      <label class="col-sm-3 col-xl-2 col-form-label fw-semibold">お名前</label>
 
       <div class="col-sm-5">
         <input type="text" class="form-control" [ngClass]="{ 'is-invalid': isValidating() && inquiryForm.name().invalid() }" [formField]="inquiryForm.name" />
@@ -17,7 +17,7 @@
     </div>
 
     <div class="row mb-2">
-      <div class="col-sm-2 col-form-label fw-semibold">お電話番号</div>
+      <div class="col-sm-3 col-xl-2 col-form-label fw-semibold">お電話番号</div>
 
       <div class="col-sm-5">
         <input type="tel" class="form-control" [ngClass]="{ 'is-invalid': isValidating() && inquiryForm.phone().invalid() }" [formField]="inquiryForm.phone" />
@@ -27,7 +27,7 @@
     </div>
 
     <div class="row mb-2">
-      <div class="col-sm-2 col-form-label fw-semibold">メールアドレス</div>
+      <div class="col-sm-3 col-xl-2 col-form-label fw-semibold">メールアドレス</div>
 
       <div class="col-sm-5">
         <input type="email" [ngClass]="{ 'is-invalid': isValidating() && inquiryForm.email().invalid() }" class="form-control" [formField]="inquiryForm.email" />
@@ -37,9 +37,9 @@
     </div>
 
     <div class="row mb-3">
-      <div class="col-sm-2 col-form-label fw-semibold">メッセージ</div>
+      <div class="col-sm-3 col-xl-2 col-form-label fw-semibold">メッセージ</div>
 
-      <div class="col-sm-10">
+      <div class="col-sm-9 col-xl-10">
         <textarea rows="5" class="form-control" [ngClass]="{ 'is-invalid': isValidating() && inquiryForm.body().invalid() }" [formField]="inquiryForm.body"></textarea>
   
         <div class="invalid-feedback">@for (error of inquiryForm.body().errors(); track error) {{{ error.message }}}</div>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-6 offset-sm-2"><button type="submit" class="btn btn-mnemonic">送信</button></div>
+      <div class="col-sm-6 offset-sm-3 offset-xl-2"><button type="submit" class="btn btn-mnemonic">送信</button></div>
     </div>
   </form>
 </section>
