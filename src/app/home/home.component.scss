@@ -37,3 +37,27 @@ dl {
     }
   }
 }
+
+@media (max-width: 767px) {
+  .scrollable {
+    flex-basis: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .entries {
+    dl {
+      dt {
+        font-weight: 600;
+        width: auto;
+      }
+  
+      dd {
+        text-overflow: unset;
+        width: auto;
+        white-space: unset;
+        overflow: visible;
+      }
+    }
+  }
+}

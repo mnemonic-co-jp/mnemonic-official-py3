@@ -1,33 +1,47 @@
 <div class="logoAndNav position-fixed start-0 end-0 top-0 bg-mnemonic w-100">
-  <div class="container position-relative mx-auto">
-    <div class="logomark position-absolute">
+  <div class="container-xl position-relative mx-auto">
+    <div class="logomark d-none d-md-block position-absolute">
       <a routerLink="/"><img class="border border-secondary w-100 h-auto" src="/images/logo.png" alt="ニモニク" /></a>
     </div>
 
-    <nav>
-      <ul class="d-flex align-items-center mb-0">
+    <nav class="d-flex align-items-center">
+      <div class="d-block d-md-none smallLogo me-3"><a routerLink="/"><img class="" src="/images/smalllogo.png" alt="ニモニク" /></a></div>
+
+      <ul class="d-none d-sm-flex align-items-center mb-0">
         <li><a routerLink="/">HOME</a></li>
         <li><a routerLink="/about">弊社について</a></li>
         <!-- li><a routerLink="/works">実績紹介</a></li -->
         <li><a routerLink="/blog">技術ブログ</a></li>
         <li><a routerLink="/inquiry">お問い合わせ</a></li>
       </ul>
+
+      <div class="d-block d-sm-none dropdown ms-auto">
+        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-list"></i></button>
+
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" routerLink="/">HOME</a></li>
+          <li><a class="dropdown-item" routerLink="/about">弊社について</a></li>
+          <!-- li><a class="dropdown-item" routerLink="/works">実績紹介</a></li -->
+          <li><a class="dropdown-item" routerLink="/blog">技術ブログ</a></li>
+          <li><a class="dropdown-item" routerLink="/inquiry">お問い合わせ</a></li>
+        </ul>
+      </div>
     </nav>
   </div>
 </div>
 
 <div class="contentBody" [ngClass]="{ isHome: isHome(), notFound: is404() }">
   <header>
-    <div class="container mx-auto">
+    <div class="headerInner container-xl mx-auto">
       <h1 class="headding text-zinc m-0">株式会社ニーモニック</h1>
     </div>
   </header>
 
-  <div class="mainContainer container mx-auto">
+  <div class="mainContainer container-xl mx-auto">
     <div class="mainContainerInner">
       <div class="d-flex h-100">
         <aside role="complementary">
-          <div class="mt-5">
+          <div class="mt-2">
             <ins class="adsbygoogle" style="display:inline-block;background-color:#f0f0f0;width:158px;height:450px" data-ad-client="ca-pub-4887705385405786" data-ad-slot="1560402219"></ins>
             
             <div id="google-adsense"></div>
@@ -42,7 +56,7 @@
       </div>
 
       <footer>
-        <div class="text-zinc mx-auto py-2">
+        <div class="container-xl text-zinc mx-auto py-2">
           <address>&copy; 2014-{{ currentYear }} Mnemonic Co., Ltd. Some Rights Reserved.</address>
         </div>
       </footer>

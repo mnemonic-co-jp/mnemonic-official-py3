@@ -4,19 +4,21 @@
   .logomark {
     left: .75rem;
     top: 22px;
-    width: 160px
+    width: 160px;
   }
 
   nav {
-    ul {
+    height: 44px;
+
+    > ul {
       list-style: none;
       padding-left: 200px;
       height: 44px;
 
-      li {
+      > li {
         margin-right: 1.25rem;
 
-        a {
+        > a {
           color: #fff;
           text-decoration: none;
           opacity: .75;
@@ -25,6 +27,29 @@
             opacity: 1;
           }
         }
+      }
+    }
+
+    .dropdown {
+      .dropdown-toggle {
+        color: #fff;
+        font-size: 22px;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid #fff;
+        padding: 3px;
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    nav {
+      ul {
+        padding-left: 0;
       }
     }
   }
@@ -36,7 +61,7 @@
   min-height: 100vh;
 
   header {
-    .container {
+    .headerInner {
       padding-top: 120px;
       padding-left: 210px;
       height: 182px;
@@ -98,12 +123,59 @@
       right: 0;
       bottom: 0;
       margin: 0 auto;
-      width: 1100px;
     }
   }
 
   &.notFound {
     background-image: url(/images/bg_404.jpg);
+  }
+
+  @media (max-width: 991px) {
+    .mainContainer {
+      .mainContainerInner {
+        aside {
+          display: none;
+        }
+  
+        main {
+          margin-left: 0;
+          padding-bottom: 20px;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+
+    header {
+      .headerInner {
+        padding: 70px 0 10px 12px;
+        height: auto;
+      }
+    }
+
+    &.isHome,
+    &.notFound {
+      .mainContainer {
+        .mainContainerInner {
+          height: auto;
+        }
+
+        footer {
+          position: relative;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 575px) {
+    background-image: none;
+
+    &.isHome,
+    &.notFound {
+      background-image: none;
+    }
   }
 }
 
