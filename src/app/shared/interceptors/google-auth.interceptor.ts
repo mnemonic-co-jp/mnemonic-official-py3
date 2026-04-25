@@ -9,6 +9,7 @@ export const googleAuthInterceptor: HttpInterceptorFn = (request: HttpRequest<un
   const oAuthStorage = inject(OAuthStorage);
   const authService = inject(GoogleAuthService);
   if (request.url.startsWith('/admin/api/') && !request.headers.has('Authorization')) {
+    authService.refresh();
     const token: string | null = oAuthStorage.getItem('id_token');
     if (token) {
       request = request.clone({
@@ -18,14 +19,5 @@ export const googleAuthInterceptor: HttpInterceptorFn = (request: HttpRequest<un
       });
     }
   }
-  return next(request).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        authService.logout();
-        window.location.reload();
-        return next(request);
-      }
-      return throwError(() => error);
-    })
-  );
+  return next(request);
 };
