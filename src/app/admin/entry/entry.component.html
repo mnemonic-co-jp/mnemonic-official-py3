@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-4 border-bottom">
+  <h1 class="h3">ブログ記事{{ entryModel().title ? `「${entryModel().title}」` : '' }}を{{ isEditing() ? '編集' : '新規作成' }}</h1>
+</div>
+
+<section>
+  <form (submit)="submit($event)" novalidate>
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" [formField]="entryForm.title" placeholder="タイトル" />
+        </div>
+
+        <div class="input-group">
+          <textarea class="form-control" rows="20" [formField]="entryForm.body"></textarea>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card text-bg-light mb-3">
+          <div class="card-body">
+            <div class="card-title">Twitter IDs</div>
+
+            <textarea class="form-control" rows="5" [formField]="entryForm.tweetIds"></textarea>
+          </div>
+        </div>
+
+        <div class="card text-bg-light mb-3">
+          <div class="card-body">
+            <div class="card-title">タグ</div>
+
+            <ng-select [items]="tagsAll()" [addTag]="true" addTagText="追加" [hideSelected]="true" multiple="true" bindLabel="name" bindValue="name" [formField]="entryForm.tags"></ng-select>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="日付" ngbDatepicker #d="ngbDatepicker" placement="top" [formField]="entryForm.date" />
+
+          <button type="button" class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"></button>
+        </div>
+
+        <div class="input-group mb-5">
+          <select class="form-control" [formField]="entryForm.isPublished">
+            <option [value]="true">公開</option>
+            <option [value]="false">非公開</option>
+          </select>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">{{ isEditing() ? '更新' : '作成' }}</button>
+
+        @if (isEditing()) {
+          <button type="button" class="btn btn-link d-flex align-items-center gap-2 px-0" href="#" (click)="load()">
+            <i class="bi bi-arrow-clockwise"></i>
+            再読み込み
+          </button>
+        }
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

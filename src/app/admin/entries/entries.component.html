@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-4 border-bottom">
+  <h1 class="h3">ブログ記事一覧</h1>
+</div>
+
+<section>
+@if (entriesAreLoading()) {
+  <p><small>読み込み中です...</small></p>
+} @else {
+  <table class="table table-striped">
+    <tbody>
+    @for (entry of entries(); track entry.id) {
+      <tr>
+        <td class="text-nowrap" [ngClass]="{ 'text-zinc': !entry.isPublished }"><span [ngClass]="{ 'text-danger': entry.isDeleted }">{{ entry.date | date:'yyyy/MM/dd' }}</span></td>
+        <td [ngClass]="{ 'text-zinc': !entry.isPublished }"><span [ngClass]="{ 'text-danger': entry.isDeleted }">{{ entry.title }}</span></td>
+        <td class="text-nowrap">
+          <div class="d-flex gap-2">
+            <a [routerLink]="['/admin/entry', entry.id]"><i class="bi bi-pencil-square"></i></a>
+            <a [routerLink]="['/blog', entry.id, 'preview']"><i class="bi bi-link-45deg"></i></a>
+          @if (!entry.isDeleted) {
+            <a href (click)="deleteEntry($event, entry)"><i class="bi bi-trash3"></i></a>
+          }
+          </div>
+        </td>
+        <td class="text-nowrap" [ngClass]="{ 'text-zinc fst-italic': !entry.isPublished }">
+        @if (entry.isDeleted) {
+          <span class="text-danger">削除済</span>
+        } @else {
+          {{ entry.isPublished ? '公開' : '非公開' }}
+        }
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+
+  <ul class="list-unstyled d-flex flex-wrap mt-5">
+  @if (page() > 1) {
+    <li (click)="jumpTo(-1)"><button class="btn btn-sm btn-link p-0"><i class="bi bi-chevron-double-left me-2"></i>前のページ</button></li>
+  }
+  @if (cursors().length >= page() + 1) {
+    <li class="text-end ms-auto" (click)="jumpTo(1)"><button class="btn btn-sm btn-link p-0">次のページ<i class="bi bi-chevron-double-right ms-2"></i></button></li>
+  }
+  </ul>
+}
+</section>

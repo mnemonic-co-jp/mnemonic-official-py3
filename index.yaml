@@ -11,3 +11,9 @@ indexes:
   - name: is_deleted
   - name: is_published
   - name: date
+
+- kind: Entry
+  properties:
+  - name: is_published
+  - name: date
+    direction: desc

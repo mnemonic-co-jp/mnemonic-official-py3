@@ -38,4 +38,3 @@ class Entry(BaseModel):
 class Tag(BaseModel):
     name = ndb.StringProperty()
     name_lower = ndb.ComputedProperty(lambda self: self.name.lower())
-    count = ndb.IntegerProperty(default=0)

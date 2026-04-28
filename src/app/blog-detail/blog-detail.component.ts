@@ -28,16 +28,17 @@ export class BlogDetailComponent {
   private meta = inject(Meta);
   private entriesService = inject(EntriesService);
   entry = signal<Entry | null>(null);
+  isPreview = signal<boolean>(false);
 
   constructor() {
     this.route.params.subscribe((params: Params) => {
-      const entryId: number = +params['id'];
-      this.getRecentEntry(entryId);
+      this.isPreview.set(params['action'] === 'preview');
+      this.getRecentEntry(+params['id']);
     });
   }
 
   getRecentEntry(entryId: number) {
-    this.entriesService.get(entryId).subscribe((entry: Entry) => {
+    this.entriesService.get(entryId, this.isPreview()).subscribe((entry: Entry) => {
       this.entry.set(entry);
       // ページタイトルに記事名を付与する
       this.titleService.setTitle(`ブログ記事: ${entry.title} | ${this.titleService.getTitle()}`);

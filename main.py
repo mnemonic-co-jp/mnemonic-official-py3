@@ -99,18 +99,21 @@ class EntryModel(CamelModel):
 
 @app.get('/api/entries/')
 def fetch_entries(response: Response, params: QueryParams = Depends(QueryParams)) -> list[EntryModel]:
-    return fetched_response(Entry.query().filter(Entry.is_deleted == False), params, response)
+    return fetched_response(Entry.query().filter(Entry.is_published == True, Entry.is_deleted == False), params, response)
 
 
 @app.get('/api/entries/{id}')
-def get_entry(id: int) -> EntryModel:
+@app.get('/api/entries/{id}/{action}')
+def get_entry(id: int, action: str = '') -> EntryModel:
     redis_key = f'entry:{id}'
     result_json = redis_client.get(redis_key)
     if result_json:
         logger.info(f'"redis": Getting value \'{redis_key}\'')
         return json.loads(result_json)
     entry = Entry.get_by_id(id)
-    if not entry or entry.is_deleted:
+    if action == 'preview':
+        return entry.to_dict()
+    if not entry or not entry.is_published or entry.is_deleted:
         raise HTTPException(status_code=404, detail='その記事は存在しません。')
     keys = Entry.fetch_all_sorted_keys()
     index = keys.index(entry.key)

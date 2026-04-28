@@ -16,3 +16,13 @@ export interface Entry {
   isPublished?: boolean;
   isDeleted?: boolean;
 }
+
+export interface EntryPayload {
+  id?: number;
+  title: string;
+  date: string;
+  tweetIds: string[];
+  body: string;
+  tags: string[];
+  isPublished: boolean;
+}

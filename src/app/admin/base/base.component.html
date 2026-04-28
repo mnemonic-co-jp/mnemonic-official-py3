@@ -3,7 +3,26 @@
     <div class="container-fluid px-3">
       <div class="navbar-brand fs-6 text-white">株式会社ニーモニック<span class="ms-3">管理画面</span></div>
 
-      <div class="navbar-text">{{ profile['name'] }}</div>
+      <div class="dropdown">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ profile['email'] }}</button>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><h6 class="dropdown-header">{{ profile['name'] }}</h6></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" routerLink="/">
+              <i class="bi bi-house-check"></i>
+              ニーモニック ウェブサイトへ
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center gap-2" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i>
+              ログアウト
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
 
@@ -11,14 +30,36 @@
     <div class="row">
       <div class="sidebar bg-body-tertiary border border-right col-2 p-0">
         <ul class="nav flex-column my-3">
-          <li class="nav-item"><a class="nav-link">ほげほげ</a></li>
-          <li class="nav-item"><button class="nav-link" (click)="logout()">ログアウト</button></li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" routerLink="/admin">
+              <i class="bi bi-speedometer"></i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" routerLink="/admin/entry">
+              <i class="bi bi-pencil"></i>
+              新規ブログ記事作成
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" routerLink="/admin/entries">
+              <i class="bi bi-list-check"></i>
+              ブログ記事一覧
+            </a>
+          </li>
         </ul>
       </div>
 
-      <main class="col-10 px-4">
+      <main class="col-10 px-4 py-3">
         <router-outlet></router-outlet>
       </main>
     </div>
   </div>
 }
+
+<div class="toastWrapper">
+@for (toast of toastService.toasts(); track $index) {
+  <ngb-toast [class]="toast.classname" [autohide]="true" [delay]="toast.delay || 3000" (hidden)="toastService.remove(toast)">{{ toast.body }}</ngb-toast>
+}
+</div>
