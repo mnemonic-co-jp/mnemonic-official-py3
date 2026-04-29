@@ -107,7 +107,7 @@ def update_entry(id: int, params: EntryModel) -> EntryModel:
     # entries を抽出するキャッシュを削除
     redis_keys = redis_client.keys(pattern='entries:*')
     # 該当する entry のキャッシュも削除対象に
-    redis_keys.append(f'entry:{id}')    
+    redis_keys.append(f'entry:{id}')
     redis_client.delete(*redis_keys)
     return entry.to_dict()
 
@@ -120,7 +120,7 @@ def delete_entry(id: int) -> None:
     # entries を抽出するキャッシュを削除
     redis_keys = redis_client.keys(pattern='entries:*')
     # 該当する entry のキャッシュも削除対象に
-    redis_keys.append(f'entry:{id}')    
+    redis_keys.append(f'entry:{id}')
     redis_client.delete(*redis_keys)
 
 
