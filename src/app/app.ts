@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,16 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {}
+export class App {
+  private router = inject(Router);
+
+  constructor() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+          'page_path': event.urlAfterRedirects
+        });
+      }
+    });
+  }
+}
