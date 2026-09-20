@@ -53,7 +53,8 @@
                 "silenceDeprecations": ["import"]
               }
             },
-            "polyfills": ["@angular/localize/init"]
+            "polyfills": ["@angular/localize/init"],
+            "externalDependencies": ["marked-katex-extension"]
           },
           "configurations": {
             "production": {

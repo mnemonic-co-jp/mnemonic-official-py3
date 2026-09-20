@@ -9,12 +9,9 @@ const NUM_OF_ENTRIES = 5;
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   readonly name: string = 'home';
@@ -30,16 +27,18 @@ export class HomeComponent {
   fetchRecentEntries(): void {
     this.entriesAreLoading.set(true);
     // ブログ記事の最新 n 件を取得
-    this.entriesService.fetch({
-      sort: '-date',
-      fields: 'title,date',
-      limit: NUM_OF_ENTRIES
-    }).subscribe({
-      next: (response: HttpResponse<Entry[]>) => {
-        this.entries.set(response.body as Entry[]);
-        this.entriesAreLoading.set(false);
-      },
-      error: () => this.entriesAreLoading.set(false)
-    });
+    this.entriesService
+      .fetch({
+        sort: '-date',
+        fields: 'title,date',
+        limit: NUM_OF_ENTRIES,
+      })
+      .subscribe({
+        next: (response: HttpResponse<Entry[]>) => {
+          this.entries.set(response.body as Entry[]);
+          this.entriesAreLoading.set(false);
+        },
+        error: () => this.entriesAreLoading.set(false),
+      });
   }
 }

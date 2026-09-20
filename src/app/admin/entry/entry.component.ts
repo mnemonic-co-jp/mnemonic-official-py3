@@ -1,11 +1,30 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router';
-import { form, FormField, required, email, validateTree, RootFieldContext } from '@angular/forms/signals';
-import { NgbDatepickerI18n, NgbDatepickerModule, NgbDate, NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import {
+  form,
+  FormField,
+  required,
+  email,
+  validateTree,
+  RootFieldContext,
+} from '@angular/forms/signals';
+import {
+  NgbDatepickerI18n,
+  NgbDatepickerModule,
+  NgbDate,
+  NgbDateStruct,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { format } from 'date-fns';
-import { CustomDatePickerI18n, CustomDateParserFormatter, createNgbDate, ngbDateToDate, ngbDateStructToDate } from '../../shared/services/datepicker.service';
+import {
+  CustomDatePickerI18n,
+  CustomDateParserFormatter,
+  createNgbDate,
+  ngbDateToDate,
+  ngbDateStructToDate,
+} from '../../shared/services/datepicker.service';
 import { EntriesService } from '../../shared/services/entries.service';
 import { TagsService } from '../../shared/services/tags.service';
 import { Entry, EntryPayload } from '../../shared/models/entry.model';
@@ -19,19 +38,14 @@ interface EntryAlt {
   tweetIds: string;
   body: string;
   tags: string[];
-  isPublished: string;  // select では文字列扱いされてしまうので...
+  isPublished: string; // select では文字列扱いされてしまうので...
 }
 
 @Component({
-  imports: [
-    CommonModule,
-    FormField,
-    NgbDatepickerModule,
-    NgSelectComponent
-  ],
+  imports: [CommonModule, FormField, NgbDatepickerModule, NgSelectComponent],
   providers: [
     { provide: NgbDatepickerI18n, useClass: CustomDatePickerI18n },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
   ],
   templateUrl: './entry.component.html',
   styleUrl: './entry.component.scss',
@@ -48,7 +62,7 @@ export class AdminEntryComponent {
     tweetIds: '',
     body: '',
     tags: [],
-    isPublished: 'true'
+    isPublished: 'true',
   });
   entryForm = form(this.entryModel);
   isEditing = signal<boolean>(false);
@@ -70,7 +84,7 @@ export class AdminEntryComponent {
       ...entry,
       date: createNgbDate(new Date(entry.date)),
       tweetIds: entry.tweetIds.join('\n'),
-      isPublished: entry.isPublished ? 'true' : 'false'
+      isPublished: entry.isPublished ? 'true' : 'false',
     });
   }
 
@@ -105,7 +119,7 @@ export class AdminEntryComponent {
       ...this.entryModel(),
       date: this.ngbDateToDateString(this.entryModel().date),
       tweetIds: this.cleanseTweetIds(this.entryModel().tweetIds),
-      isPublished: this.entryModel().isPublished === 'true'
+      isPublished: this.entryModel().isPublished === 'true',
     };
     let promise;
     if (this.isEditing()) {
@@ -116,7 +130,7 @@ export class AdminEntryComponent {
     promise.subscribe((response: Entry) => {
       this.toastService.show({
         body: `記事を${this.isEditing() ? '更新' : '作成'}しました。`,
-        classname: 'bg-success text-light'
+        classname: 'bg-success text-light',
       });
       this.setExistingEntry(response);
       this.isEditing.set(true);

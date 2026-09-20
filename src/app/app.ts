@@ -7,16 +7,16 @@ declare let gtag: Function;
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   private router = inject(Router);
 
   constructor() {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && typeof gtag === 'function') {
         gtag('event', 'page_view', {
-          'page_path': event.urlAfterRedirects
+          page_path: event.urlAfterRedirects,
         });
       }
     });

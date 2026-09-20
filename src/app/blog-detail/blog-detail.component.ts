@@ -2,21 +2,16 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Title, Meta } from "@angular/platform-browser";
-import { NgxTwitterWidgetsModule } from "ngx-twitter-widgets";
+import { Title, Meta } from '@angular/platform-browser';
+import { NgxTwitterWidgetsModule } from 'ngx-twitter-widgets';
 import { MarkdownComponent } from 'ngx-markdown';
 import { EntriesService } from '../shared/services/entries.service';
 import { Entry } from '../shared/models/entry.model';
 
 @Component({
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgxTwitterWidgetsModule,
-    MarkdownComponent
-  ],
+  imports: [CommonModule, RouterModule, NgxTwitterWidgetsModule, MarkdownComponent],
   templateUrl: './blog-detail.component.html',
-  styleUrl: './blog-detail.component.scss'
+  styleUrl: './blog-detail.component.scss',
 })
 export class BlogDetailComponent {
   readonly name: string = 'blog-detail';
@@ -45,12 +40,12 @@ export class BlogDetailComponent {
       // description を変更
       this.meta.updateTag({
         name: 'description',
-        content: `株式会社ニーモニックのオフィシャルサイト。ブログ記事"${entry.title}"のページです。`
+        content: `株式会社ニーモニックのオフィシャルサイト。ブログ記事"${entry.title}"のページです。`,
       });
       // keywords も変更
       this.meta.updateTag({
         name: 'keywords',
-        content: `Mnemonic,ニーモニック,ニモニク,システム開発,エンジニア,ブログ,${entry.tags}`
+        content: `Mnemonic,ニーモニック,ニモニク,システム開発,エンジニア,ブログ,${entry.tags}`,
       });
     });
   }

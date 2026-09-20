@@ -11,10 +11,7 @@ interface EntryRequestParams {
 }
 
 @Component({
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './entries.component.html',
   styleUrl: './entries.component.scss',
 })
@@ -44,11 +41,11 @@ export class AdminEntriesComponent {
         const nextCursor = response.headers.get('X-Next-Cursor');
         if (nextCursor) {
           if (!this.cursors()[this.page() - 2]) {
-            this.cursors.update(value => [...value, nextCursor]);
+            this.cursors.update((value) => [...value, nextCursor]);
           }
         }
       },
-      error: () => this.entriesAreLoading.set(false)
+      error: () => this.entriesAreLoading.set(false),
     });
   }
 
@@ -57,23 +54,25 @@ export class AdminEntriesComponent {
     if (window.confirm(`記事「${entry.title}」を削除してもよろしいですか？`)) {
       this.entriesService.adminDelete(entry.id).subscribe({
         next: () => {
-          this.entries.set(this.entries().map((_entry: Entry) => {
-            if (_entry.id === entry.id) {
-              _entry.isDeleted = true;
-            }
-            return _entry;
-          }));
+          this.entries.set(
+            this.entries().map((_entry: Entry) => {
+              if (_entry.id === entry.id) {
+                _entry.isDeleted = true;
+              }
+              return _entry;
+            }),
+          );
           this.toastService.show({
             body: '記事を削除しました。',
-            classname: 'bg-success text-light'
+            classname: 'bg-success text-light',
           });
-        }
+        },
       });
     }
   }
 
   jumpTo(direction: number): void {
-    this.page.update(value => value + direction);
+    this.page.update((value) => value + direction);
     this.fetchEntries();
   }
 }

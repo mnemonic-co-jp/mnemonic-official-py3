@@ -16,10 +16,7 @@ const PER_PAGE = 20;
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -43,7 +40,7 @@ export class BlogComponent {
     const params: EntryRequestParams = {
       sort: '-date',
       fields: 'title,date,tags',
-      limit: PER_PAGE
+      limit: PER_PAGE,
     };
     const cursor = this.cursors()[this.page() - 1];
     if (cursor) {
@@ -56,11 +53,11 @@ export class BlogComponent {
         const nextCursor = response.headers.get('X-Next-Cursor');
         if (nextCursor) {
           if (!this.cursors()[this.page() - 2]) {
-            this.cursors.update(value => [...value, nextCursor]);
+            this.cursors.update((value) => [...value, nextCursor]);
           }
         }
       },
-      error: () => this.entriesAreLoading.set(false)
+      error: () => this.entriesAreLoading.set(false),
     });
   }
 
@@ -69,7 +66,7 @@ export class BlogComponent {
   }
 
   jumpTo(direction: number): void {
-    this.page.update(value => value + direction);
+    this.page.update((value) => value + direction);
     this.fetchEntries();
   }
 }

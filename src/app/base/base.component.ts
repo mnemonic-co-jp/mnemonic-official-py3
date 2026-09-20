@@ -17,14 +17,9 @@ const BASE_TITLE = 'ニモニク - 株式会社ニーモニック';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    RouterOutlet,
-    NgbToastModule
-  ],
+  imports: [CommonModule, RouterModule, RouterOutlet, NgbToastModule],
   templateUrl: './base.component.html',
-  styleUrls: ['./base.component.scss']
+  styleUrls: ['./base.component.scss'],
 })
 export class BaseComponent implements AfterViewInit {
   isHome = signal<boolean>(false);
@@ -37,7 +32,7 @@ export class BaseComponent implements AfterViewInit {
 
   constructor() {
     this.titleService.setTitle(BASE_TITLE);
-  };
+  }
 
   ngAfterViewInit(): void {
     const hostElement = this.document.getElementById('google-adsense');
@@ -66,13 +61,13 @@ export class BaseComponent implements AfterViewInit {
     const description = componentRef?.description;
     this.meta.updateTag({
       name: 'description',
-      content: `株式会社ニーモニックのオフィシャルサイト。${description || ''}` 
+      content: `株式会社ニーモニックのオフィシャルサイト。${description || ''}`,
     });
     this.meta.removeTag('keywords');
     const keywords = componentRef?.keywords;
     this.meta.updateTag({
       name: 'keywords',
-      content: `Mnemonic,ニーモニック,ニモニク,システム開発,エンジニア${keywords || ''}`
+      content: `Mnemonic,ニーモニック,ニモニク,システム開発,エンジニア${keywords || ''}`,
     });
   }
 }

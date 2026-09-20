@@ -9,14 +9,9 @@ type Profile = Record<string, any> | null;
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    RouterOutlet,
-    NgbToastModule
-  ],
+  imports: [CommonModule, RouterModule, RouterOutlet, NgbToastModule],
   templateUrl: './base.component.html',
-  styleUrl: './base.component.scss'
+  styleUrl: './base.component.scss',
 })
 export class AdminBaseComponent {
   profile = signal<Profile>(null);

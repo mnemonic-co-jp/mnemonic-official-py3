@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class AdminHomeComponent {
   constructor(private http: HttpClient) {

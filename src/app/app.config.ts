@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideMarkdown } from 'ngx-markdown';
@@ -12,12 +12,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([coreInterceptor, googleAuthInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([coreInterceptor, googleAuthInterceptor])),
     provideOAuthClient(),
     provideMarkdown(),
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: '6Lcl_3MeAAAAANxWTdd4BHMG9WflFiTowhKk3JDK'
-    }
-  ]
+      useValue: '6Lcl_3MeAAAAANxWTdd4BHMG9WflFiTowhKk3JDK',
+    },
+  ],
 };

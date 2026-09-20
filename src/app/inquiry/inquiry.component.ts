@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { form, FormField, required, email, validateTree, RootFieldContext } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,6 @@ interface Inquiry {
   ],
   templateUrl: './inquiry.component.html',
   styleUrl: './inquiry.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryComponent {
   readonly name: string = 'inquiry';
