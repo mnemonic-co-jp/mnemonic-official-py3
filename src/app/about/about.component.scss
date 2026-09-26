@@ -1,3 +1,9 @@
+.alert {
+  background-color: rgba(var(--bs-mnemonic-rgb), 0.1);
+  border-color: rgba(var(--bs-mnemonic-rgb), 0.25);
+  color: #333;
+}
+
 .portrait {
   img {
     width: 160px;
