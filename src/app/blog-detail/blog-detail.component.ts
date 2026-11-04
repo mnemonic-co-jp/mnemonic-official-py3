@@ -38,7 +38,7 @@ export class BlogDetailComponent {
     this.entriesService.get(entryId, this.isPreview()).subscribe((entry: Entry) => {
       this.entry.set(entry);
       // 経過年数を計算
-      this.elapsedYears.set(Math.floor(differenceInCalendarMonths(new Date(), new Date(entry.date)) / 12));      console.log(this.elapsedYears());
+      this.elapsedYears.set(Math.floor(differenceInCalendarMonths(new Date(), new Date(entry.date)) / 12));
       // ページタイトルに記事名を付与する
       this.titleService.setTitle(`ブログ記事: ${entry.title} | ${this.titleService.getTitle()}`);
       // description を変更
