@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
+import { differenceInCalendarMonths } from 'date-fns';
 import { NgxTwitterWidgetsModule } from 'ngx-twitter-widgets';
 import { MarkdownComponent } from 'ngx-markdown';
 import { EntriesService } from '../shared/services/entries.service';
@@ -23,6 +24,7 @@ export class BlogDetailComponent {
   private meta = inject(Meta);
   private entriesService = inject(EntriesService);
   entry = signal<Entry | null>(null);
+  elapsedYears = signal<number>(0);
   isPreview = signal<boolean>(false);
 
   constructor() {
@@ -35,6 +37,8 @@ export class BlogDetailComponent {
   getRecentEntry(entryId: number) {
     this.entriesService.get(entryId, this.isPreview()).subscribe((entry: Entry) => {
       this.entry.set(entry);
+      // 経過年数を計算
+      this.elapsedYears.set(Math.floor(differenceInCalendarMonths(new Date(), new Date(entry.date)) / 12));      console.log(this.elapsedYears());
       // ページタイトルに記事名を付与する
       this.titleService.setTitle(`ブログ記事: ${entry.title} | ${this.titleService.getTitle()}`);
       // description を変更
