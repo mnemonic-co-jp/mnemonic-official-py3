@@ -8,7 +8,8 @@ import { GoogleAuthService } from '../../shared/services/google-auth.service';
 export const googleAuthInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const oAuthStorage = inject(OAuthStorage);
   const authService = inject(GoogleAuthService);
-  if (request.url.startsWith('/admin/api/') && !request.headers.has('Authorization')) {
+  const isTokenExchange = request.url.includes('/admin/api/oauth/token');
+  if (request.url.startsWith('/admin/api/') && !isTokenExchange && !request.headers.has('Authorization')) {
     const token: string | null = oAuthStorage.getItem('id_token');
     if (token) {
       request = request.clone({
@@ -20,7 +21,7 @@ export const googleAuthInterceptor: HttpInterceptorFn = (request: HttpRequest<un
   }
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 401 && !request.url.includes('/admin/api/oauth/token')) {
         authService.logout();
         window.location.reload();
         return next(request);
