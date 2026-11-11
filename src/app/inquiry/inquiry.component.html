@@ -12,7 +12,11 @@
       <div class="col-sm-5">
         <input type="text" class="form-control" [ngClass]="{ 'is-invalid': isValidating() && inquiryForm.name().invalid() }" [formField]="inquiryForm.name" />
 
-        <div class="invalid-feedback">@for (error of inquiryForm.name().errors(); track error) {{{ error.message }}}</div>
+        <div class="invalid-feedback">
+          @for (error of inquiryForm.name().errors(); track error) {
+            <span>{{ error.message }}</span>
+          }
+        </div>
       </div>
     </div>
 

@@ -48,12 +48,12 @@
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-primary">{{ isEditing() ? '更新' : '作成' }}</button>
 
-        @if (isEditing()) {
-          <button type="button" class="btn btn-link d-flex align-items-center gap-2 px-0" href="#" (click)="load()">
-            <i class="bi bi-arrow-clockwise"></i>
-            再読み込み
-          </button>
-        }
+          @if (isEditing()) {
+            <button type="button" class="btn btn-link d-flex align-items-center gap-2 px-0" href="#" (click)="load()">
+              <i class="bi bi-arrow-clockwise"></i>
+              再読み込み
+            </button>
+          }
         </div>
       </div>
     </div>
