@@ -5,7 +5,6 @@ import redis
 from urllib.parse import parse_qs, urlparse
 import requests as http_client
 from fastapi import APIRouter, Request, Response, Depends, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi_camelcase import CamelModel
 from fastapi.security import OAuth2PasswordBearer
 from google.cloud import ndb
@@ -47,14 +46,7 @@ def _form_value(form: dict[str, list[str]], name: str) -> str | None:
 
 def _valid_redirect_uri(redirect_uri: str) -> bool:
     parsed = urlparse(redirect_uri)
-    return (
-        parsed.scheme in ('http', 'https')
-        and bool(parsed.netloc)
-        and parsed.path == '/admin'
-        and not parsed.query
-        and not parsed.fragment
-        and not parsed.username
-    )
+    return parsed.scheme in ('http', 'https') and bool(parsed.netloc) and parsed.path == '/admin' and not parsed.query and not parsed.fragment and not parsed.username
 
 
 @oauth_router.post('/oauth/token')
@@ -62,78 +54,53 @@ async def exchange_google_token(request: Request) -> Response:
     client_secret = SECRET['google'].get('client_secret')
     if not client_secret:
         logger.error('google.client_secret is not set')
-        return JSONResponse(status_code=500, content={
-            'error': 'server_error',
-            'error_description': 'Google client secret is not configured.',
-        })
-
+        raise HTTPException(status_code=500, detail='Google client secret is not configured.')
     form = parse_qs((await request.body()).decode(), keep_blank_values=False)
     grant_type = _form_value(form, 'grant_type')
     client_id = _form_value(form, 'client_id')
     if client_id and client_id != SECRET['google']['client_id']:
-        return JSONResponse(status_code=400, content={
-            'error': 'invalid_client',
-            'error_description': 'Invalid client.',
-        })
-
+        raise HTTPException(status_code=400, detail='Invalid client.')
     payload = {
         'grant_type': grant_type,
         'client_id': SECRET['google']['client_id'],
-        'client_secret': client_secret,
+        'client_secret': client_secret
     }
     if grant_type == 'authorization_code':
         code = _form_value(form, 'code')
         redirect_uri = _form_value(form, 'redirect_uri')
         code_verifier = _form_value(form, 'code_verifier')
         if not code or not redirect_uri or not code_verifier or not _valid_redirect_uri(redirect_uri):
-            return JSONResponse(status_code=400, content={
-                'error': 'invalid_request',
-                'error_description': 'Missing or invalid code exchange parameters.',
-            })
+            raise HTTPException(status_code=400, detail='Missing or invalid code exchange parameters.')
         payload.update({
             'code': code,
             'redirect_uri': redirect_uri,
-            'code_verifier': code_verifier,
+            'code_verifier': code_verifier
         })
     elif grant_type == 'refresh_token':
         refresh_token = _form_value(form, 'refresh_token')
         if not refresh_token:
-            return JSONResponse(status_code=400, content={
-                'error': 'invalid_request',
-                'error_description': 'Missing refresh token.',
-            })
+            raise HTTPException(status_code=400, detail='Missing refresh token.')
         payload['refresh_token'] = refresh_token
         scope = _form_value(form, 'scope')
         if scope:
             payload['scope'] = scope
     else:
-        return JSONResponse(status_code=400, content={
-            'error': 'unsupported_grant_type',
-            'error_description': 'Unsupported grant type.',
-        })
-
+        raise HTTPException(status_code=400, detail='Unsupported grant type.')
     try:
         token_response = http_client.post(GOOGLE_TOKEN_ENDPOINT, data=payload, timeout=10)
     except http_client.RequestException as error:
         logger.error('Google token endpoint request failed: %s', error.__class__.__name__)
-        return JSONResponse(status_code=502, content={
-            'error': 'server_error',
-            'error_description': 'Token endpoint is unavailable.',
-        })
-
+        raise HTTPException(status_code=502, detail='Token endpoint is unavailable.')
     try:
         body = token_response.json()
     except ValueError:
         logger.error('Google token endpoint returned a non-JSON body: %s', token_response.status_code)
-        return JSONResponse(status_code=502, content={
-            'error': 'server_error',
-            'error_description': 'Token endpoint returned an invalid response.',
-        })
-
+        raise HTTPException(status_code=502, detail='Token endpoint returned an invalid response.')
     if token_response.status_code >= 400:
         error_code = body.get('error') if isinstance(body, dict) else None
         logger.error('Google token endpoint failed: %s %s', token_response.status_code, error_code)
-    return JSONResponse(status_code=token_response.status_code, content=body)
+        raise HTTPException(status_code=token_response.status_code, detail=error_code)
+    return body
 
 
 router = APIRouter(prefix='/admin/api', dependencies=[Depends(google_auth_required)])
