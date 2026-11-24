@@ -1,7 +1,7 @@
 # mnemonic-official-py3
 2014 年に作った自社サイトを、最新のツールで作り直すプロジェクト。2026 年 4 月にようやっと本番化に至る。
 
-- Google App Engine / Python 3.12 / FastAPI
+- Google App Engine / Python 3.15 / FastAPI
 - Angular 22
 
 ```
